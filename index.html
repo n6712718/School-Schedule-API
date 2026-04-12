@@ -484,7 +484,7 @@ body { font-family: 'Heebo', sans-serif; background: var(--bg); color: var(--tex
 // ═══════════════════════════════════════════════════════════════════
 // CONFIGURATION — replace API_URL with your Apps Script Web App URL
 // ═══════════════════════════════════════════════════════════════════
-const API_URL = 'https://script.google.com/macros/s/AKfycbxyV0xQH_PnMsEp2H6_QIuIG1LU57Xait_U2xWHnj7Dc8HbahDvmCSIoW32WioG0m1c/ex // ← הכנס כאן את ה-URL של Apps Script שלך
+const API_URL = 'https://script.google.com/macros/s/AKfycbxyV0xQH_PnMsEp2H6_QIuIG1LU57Xait_U2xWHnj7Dc8HbahDvmCSIoW32WioG0m1c/exec';
 const EDIT_PASSWORD = 'editor2025'; // ← שנה סיסמה כאן
 
 // ═══════════════════════════════════════════════════════════════════
@@ -989,11 +989,27 @@ function showStatus(msg) {
 function hideStatus() { document.getElementById('status-bar').classList.remove('show'); }
 
 // ═══════════════════════════════════════════════════════
-// BOOT
+// BOOT — מציג מיד, טוען עדכונים מ-API ברקע
 // ═══════════════════════════════════════════════════════
 buildLayersBar();
 buildMonthSelect();
-render();
+render(); // מציג נתונים מובנים מיד — ללא המתנה
+
+// טעינת עדכונים מ-API ברקע (אם מוגדר)
+if (API_URL) {
+  fetch(API_URL + '?t=' + Date.now())
+    .then(r => r.json())
+    .then(res => {
+      if (res.ok && res.data && Object.keys(res.data).length > 0) {
+        Object.assign(edits, res.data);
+        localStorage.setItem('sched_edits_v2', JSON.stringify(edits));
+        render();
+      }
+    })
+    .catch(() => {
+      // API לא זמין — ממשיך עם נתונים מקומיים
+    });
+}
 </script>
 </body>
 </html>
