@@ -65,12 +65,30 @@ body { font-family:'Heebo',sans-serif; background:var(--bg); color:var(--text); 
 
 .main { padding:16px 22px; max-width:1480px; margin:0 auto; }
 
-.hero { background:linear-gradient(135deg,#1c1812 55%,#2c5f2e); border-radius:14px; padding:16px 20px; margin-bottom:22px; color:#fff; display:flex; align-items:center; gap:16px; box-shadow:var(--sh-lg); }
-.hero-badge { background:var(--accent2); border-radius:10px; padding:6px 14px; font-size:0.7rem; font-weight:800; white-space:nowrap; }
-.hero-dates { font-size:0.92rem; font-weight:700; margin-top:7px; }
-.hero-sub { font-size:0.74rem; color:rgba(255,255,255,0.5); margin-top:2px; }
-.hero-events { flex:1; display:flex; gap:6px; flex-wrap:wrap; }
-.hero-event { background:rgba(255,255,255,0.12); border-radius:6px; padding:3px 9px; font-size:0.73rem; }
+.hero-wrap { background:linear-gradient(135deg,#1a1410 0%,#1c3a1e 60%,#1a1410 100%); border-radius:16px; padding:20px 22px; margin-bottom:22px; color:#fff; box-shadow:0 8px 40px rgba(0,0,0,0.3),0 0 0 1px rgba(196,123,26,0.2); overflow:hidden; position:relative; }
+.hero-wrap::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 30% 50%,rgba(196,123,26,0.08) 0%,transparent 60%); pointer-events:none; }
+.hero-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:16px; }
+.hero-week-label { display:inline-block; background:var(--accent2); border-radius:8px; padding:4px 12px; font-size:0.68rem; font-weight:800; letter-spacing:0.04em; margin-bottom:8px; }
+.hero-week-range { font-size:1.15rem; font-weight:800; }
+.hero-week-sec { font-size:0.78rem; color:var(--accent2); font-weight:600; margin-top:2px; }
+.hero-month-sub { font-size:0.7rem; color:rgba(255,255,255,0.4); margin-top:3px; }
+.hero-share-hint { font-size:0.68rem; color:rgba(255,255,255,0.35); background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:6px 12px; align-self:flex-start; }
+.hero-days { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }
+.hero-day { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:10px 8px; min-height:90px; transition:background 0.2s; }
+.hero-day:hover { background:rgba(255,255,255,0.1); }
+.hero-day-today { background:rgba(196,123,26,0.2)!important; border-color:var(--accent2)!important; box-shadow:0 0 12px rgba(196,123,26,0.25); }
+.hday-name { font-size:0.68rem; font-weight:700; color:rgba(255,255,255,0.6); margin-bottom:3px; }
+.hday-date { font-size:0.78rem; font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.hday-sec { font-size:0.62rem; color:var(--accent2); font-weight:500; margin-bottom:6px; }
+.hday-events { display:flex; flex-direction:column; gap:3px; }
+.hday-ev { font-size:0.66rem; color:rgba(255,255,255,0.85); display:flex; align-items:flex-start; gap:4px; line-height:1.3; }
+.hday-cat-dot { flex-shrink:0; width:6px; height:6px; border-radius:50%; margin-top:3px; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.hero-day { animation:fadeIn 0.4s ease both; }
+.hero-day:nth-child(1){animation-delay:0.05s} .hero-day:nth-child(2){animation-delay:0.1s}
+.hero-day:nth-child(3){animation-delay:0.15s} .hero-day:nth-child(4){animation-delay:0.2s}
+.hero-day:nth-child(5){animation-delay:0.25s} .hero-day:nth-child(6){animation-delay:0.3s}
+.hero-day:nth-child(7){animation-delay:0.35s}
 
 .month-sec { margin-bottom:30px; }
 .month-head { font-size:0.98rem; font-weight:800; color:var(--accent); padding:6px 0 8px; border-bottom:2px solid var(--accent); margin-bottom:11px; }
@@ -96,6 +114,7 @@ body { font-family:'Heebo',sans-serif; background:var(--bg); color:var(--text); 
 .cat-lbl.pni  { background:var(--c-pni);  }
 .cat-lbl.ris  { background:var(--c-ris);  }
 .cat-lbl.ach  { background:var(--c-ach);  }
+.cat-lbl.bag  { background:var(--c-bag);  }
 
 .event-cell { padding:5px 5px; min-height:38px; border-right:1px solid var(--border); font-size:0.72rem; line-height:1.4; }
 .event-cell:last-child { border-right:none; }
@@ -222,7 +241,7 @@ body { font-family:'Heebo',sans-serif; background:var(--bg); color:var(--text); 
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbxyV0xQH_PnMsEp2H6_QIuIG1LU57Xait_U2xWHnj7Dc8HbahDvmCSIoW32WioG0m1c/exec';
-const EDIT_PASSWORD = 'editor2025';
+const EDIT_PASSWORD = '12345';
 
 const CAT_ORDER = ['מעגל השנה','פדגוגי','חברתי','רישום','פנימיה','אחר','בגרויות ומתכונות'];
 const GRADE_LAYERS = ['שכבת ז','שכבת ח','שכבת ט','שכבת י','שכבת י"א','שכבת י"ב'];
@@ -289,6 +308,12 @@ function badges(layers){
 function getV(key,fb){return edits.hasOwnProperty(key)?edits[key]:(fb||'');}
 function getLayers(key){const v=edits['layers_'+key];return v?v.split(',').filter(Boolean):[];}
 
+// ═══ HELPERS ═══
+function getCatColor(cat){
+  const m={'מעגל השנה':'#7a3a00','פדגוגי':'#1a3a6b','חברתי':'#2c5f2e','רישום':'#4a4a6a','פנימיה':'#7a2030','אחר':'#5a4520','בגרויות ומתכונות':'#5a1a7a'};
+  return m[cat]||'#666';
+}
+
 // ═══ BAGRUT HELPER ═══
 // Build a map: secular date string -> {ya: text, yb: text}
 function buildBagrutMap() {
@@ -323,9 +348,50 @@ function render(){
 
 function renderSched(search){
   const ci=findCW(SCHEDULE_DATA); const cw=SCHEDULE_DATA[ci];
-  const hev=[];
-  CAT_ORDER.forEach(cat=>{(cw.categories[cat]||[]).forEach(ev=>{if(ev&&ev.trim())hev.push(ev.trim());});});
-  let html=`<div class="hero"><div><div class="hero-badge">📍 השבוע</div><div class="hero-dates">${(cw.dates[0]||'').split(' * ')[0]} – ${(cw.dates[6]||'').split(' * ')[0]}</div><div class="hero-sub">${cw.month||''}</div></div><div class="hero-events">${hev.slice(0,6).map(e=>`<span class="hero-event">${e}</span>`).join('')}</div></div>`;
+  // Build animated weekly showcase
+  const DAY_EMOJIS = ['☀️','🌙','🌟','🌈','🎯','✨','🕯️'];
+  const CAT_EMOJIS = {'מעגל השנה':'📅','פדגוגי':'📚','חברתי':'🤝','רישום':'📋','פנימיה':'🏠','אחר':'📌','בגרויות ומתכונות':'🎓'};
+  const bagMapHero = buildBagrutMap();
+
+  // Collect events per day
+  const dayEvents = Array(7).fill(null).map(()=>[]);
+  CAT_ORDER.forEach(cat=>{
+    const evs = cw.categories[cat]||Array(7).fill('');
+    evs.forEach((ev,di)=>{ const key=`s-${SCHEDULE_DATA.indexOf(cw)}-${cat}-${di}`; const val=getV(key,ev); if(val&&val.trim()&&!val.includes('חופשת')&&!val.includes('פרשת')) dayEvents[di].push({cat,text:val.trim()}); });
+  });
+  // Add bagrut events
+  cw.dates.forEach((d,di)=>{ const sec=(d?d.split(' * ')[1]||'':'').trim(); const bag=bagMapHero[sec]||{}; Object.entries(bag).forEach(([g,evts])=>{ evts.forEach(({text})=>{ dayEvents[di].push({cat:'בגרויות ומתכונות',text}); }); }); });
+
+  const dateRange = `${(cw.dates[0]||'').split(' * ')[0]} – ${(cw.dates[6]||'').split(' * ')[0]}`;
+  const secRange = `${(cw.dates[0]||'').split(' * ')[1]||''} – ${(cw.dates[6]||'').split(' * ')[1]||''}`;
+
+  let heroDays = '';
+  cw.dates.forEach((d,i)=>{
+    const evts = dayEvents[i];
+    if(!evts.length && i===6) return; // skip empty shabbat
+    const parts = d?d.split(' * '):['',''];
+    const todayMark = isToday(d) ? ' hero-day-today' : '';
+    const evHTML = evts.slice(0,3).map(({cat,text})=>`<div class="hday-ev"><span class="hday-cat-dot" style="background:${getCatColor(cat)}"></span>${text}</div>`).join('');
+    heroDays += `<div class="hero-day${todayMark}">
+      <div class="hday-name">${DAY_EMOJIS[i]} ${DAY_NAMES[i]}</div>
+      <div class="hday-date">${parts[0]||''}</div>
+      <div class="hday-sec">${parts[1]||''}</div>
+      <div class="hday-events">${evHTML||'<span style="color:rgba(255,255,255,0.25);font-size:0.65rem">—</span>'}</div>
+    </div>`;
+  });
+
+  let html=`<div class="hero-wrap">
+    <div class="hero-top">
+      <div class="hero-title-block">
+        <div class="hero-week-label">📍 השבוע</div>
+        <div class="hero-week-range">${dateRange}</div>
+        <div class="hero-week-sec">${secRange}</div>
+        <div class="hero-month-sub">${cw.month||''}</div>
+      </div>
+      <div class="hero-share-hint">📸 צלם מסך לשיתוף עם הצוות</div>
+    </div>
+    <div class="hero-days">${heroDays}</div>
+  </div>`;
   const months={};
   SCHEDULE_DATA.forEach((w,wi)=>{const m=w.month||'כללי';if(!months[m])months[m]=[];months[m].push({w,wi});});
   Object.entries(months).forEach(([month,weeks])=>{
