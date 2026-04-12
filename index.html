@@ -10,8 +10,8 @@
   --bg: #f4f1eb; --surface: #fff; --border: #ddd8cc; --text: #1c1812; --muted: #7a7269;
   --accent: #2c5f2e; --accent2: #c47b1a; --header: #1c1812;
   --radius: 10px; --sh: 0 2px 12px rgba(0,0,0,0.07); --sh-lg: 0 8px 32px rgba(0,0,0,0.14);
-  --c-chag:#7a3a00; --c-pad:#1a3a6b; --c-hev:#2c5f2e; --c-pni:#7a2030; --c-ris:#4a4a6a; --c-ach:#5a4520;
-  --g-z:#b55a00; --g-h:#006080; --g-t:#5a006b; --g-y:#006b3a; --g-ya:#3a006b; --g-yb:#6b2000;
+  --c-chag:#7a3a00; --c-pad:#1a3a6b; --c-hev:#2c5f2e; --c-pni:#7a2030; --c-ris:#4a4a6a; --c-ach:#5a4520; --c-bag:#5a1a7a;
+  --g-z:#b55a00; --g-h:#006080; --g-t:#5a006b; --g-y:#006b3a; --g-ya:#8b0000; --g-yb:#00468b;
 }
 * { box-sizing:border-box; margin:0; padding:0; }
 body { font-family:'Heebo',sans-serif; background:var(--bg); color:var(--text); direction:rtl; min-height:100vh; }
@@ -44,6 +44,7 @@ body { font-family:'Heebo',sans-serif; background:var(--bg); color:var(--text); 
 .layer-chip[data-layer="פנימיה"]     { border-color:var(--c-pni);  color:var(--c-pni);  } .layer-chip[data-layer="פנימיה"].on     { background:var(--c-pni);   color:#fff; }
 .layer-chip[data-layer="רישום"]      { border-color:var(--c-ris);  color:var(--c-ris);  } .layer-chip[data-layer="רישום"].on      { background:var(--c-ris);   color:#fff; }
 .layer-chip[data-layer="אחר"]        { border-color:var(--c-ach);  color:var(--c-ach);  } .layer-chip[data-layer="אחר"].on        { background:var(--c-ach);   color:#fff; }
+.layer-chip[data-layer="בגרויות ומתכונות"] { border-color:var(--c-bag);  color:var(--c-bag);  } .layer-chip[data-layer="בגרויות ומתכונות"].on  { background:var(--c-bag);   color:#fff; }
 .layer-chip[data-layer="שכבת ז"]    { border-color:var(--g-z);   color:var(--g-z);   } .layer-chip[data-layer="שכבת ז"].on    { background:var(--g-z);    color:#fff; }
 .layer-chip[data-layer="שכבת ח"]    { border-color:var(--g-h);   color:var(--g-h);   } .layer-chip[data-layer="שכבת ח"].on    { background:var(--g-h);    color:#fff; }
 .layer-chip[data-layer="שכבת ט"]    { border-color:var(--g-t);   color:var(--g-t);   } .layer-chip[data-layer="שכבת ט"].on    { background:var(--g-t);    color:#fff; }
@@ -169,7 +170,6 @@ body { font-family:'Heebo',sans-serif; background:var(--bg); color:var(--text); 
 <div class="tabs-bar">
   <button class="tab-btn active" id="tab-loz" onclick="switchTab('loz')">📅 לו"ז כללי</button>
   <button class="tab-btn" id="tab-exams" onclick="switchTab('exams')">📝 מבחנים</button>
-  <button class="tab-btn" id="tab-bagrut" onclick="switchTab('bagrut')">🎓 בגרויות ומתכונות</button>
   <div class="tabs-spacer"></div>
 </div>
 
@@ -224,9 +224,9 @@ body { font-family:'Heebo',sans-serif; background:var(--bg); color:var(--text); 
 const API_URL = 'https://script.google.com/macros/s/AKfycbxyV0xQH_PnMsEp2H6_QIuIG1LU57Xait_U2xWHnj7Dc8HbahDvmCSIoW32WioG0m1c/exec';
 const EDIT_PASSWORD = 'editor2025';
 
-const CAT_ORDER = ['מעגל השנה','פדגוגי','חברתי','רישום','פנימיה','אחר'];
+const CAT_ORDER = ['מעגל השנה','פדגוגי','חברתי','רישום','פנימיה','אחר','בגרויות ומתכונות'];
 const GRADE_LAYERS = ['שכבת ז','שכבת ח','שכבת ט','שכבת י','שכבת י"א','שכבת י"ב'];
-const CAT_CSS = {'מעגל השנה':'chag','פדגוגי':'pad','חברתי':'hev','פנימיה':'pni','רישום':'ris','אחר':'ach'};
+const CAT_CSS = {'מעגל השנה':'chag','פדגוגי':'pad','חברתי':'hev','פנימיה':'pni','רישום':'ris','אחר':'ach','בגרויות ומתכונות':'bag'};
 const GRADE_CSS = {'שכבת ז':'gz','שכבת ח':'gh','שכבת ט':'gt','שכבת י':'gy','שכבת י"א':'gya','שכבת י"ב':'gyb'};
 const GRADE_LBL = {'שכבת ז':'ז','שכבת ח':'ח','שכבת ט':'ט','שכבת י':'י','שכבת י"א':'יא','שכבת י"ב':'יב'};
 const DAY_NAMES = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
@@ -238,7 +238,7 @@ const EXAMS_DATA = [{"month":"ספטמבר 2025","dates":["י\"ד אלול * 07.
 const BAGRUT_DATA = [{"month":"ינואר 2026","dates":["כ\"ט טבת * 18.01","א' שבט * 19.01","ב' שבט * 20.01","ג' שבט * 21.01","ד' שבט * 22.01","ה' שבט * 23.01","ו' שבט * 24.01"],"grades":{"שכבת י\"א":["מתכונת מחשבת","","","","מבחן תנ\"ך","",""],"שכבת י\"ב":["","","בגרות מתמטיקה","בגרות מתמטיקה","יום השלמה ספרות","",""]}},{"month":"פברואר 2026","dates":["כ\"ח שבט * 15.02","כ\"ט שבט * 16.02","ל' שבט * 17.02","א' אדר * 18.02","ב' אדר * 19.02","ג' אדר * 20.02","ד' אדר * 21.02"],"grades":{"שכבת י\"א":["מבחן במתמטיקה","מבחן אנגלית","","","מבחן גמרא","",""],"שכבת י\"ב":["בגרות באזרחות+מתכונת COBE","יום עיון תקשורת","מבחן גמרא","","הגשה וסיום ספרות","",""]}},{"month":"מרץ 2026","dates":["י\"ט אדר * 08.03","כ' אדר * 09.03","כ\"א אדר * 10.03","כ\"ב אדר * 11.03","כ\"ג אדר * 12.03","כ\"ד אדר * 13.03","כ\"ה אדר * 14.03"],"grades":{"שכבת י\"א":["מבחן תנך הגבר","","מתכונת 1 עברית","מתכונת 1 באנגלית","","",""],"שכבת י\"ב":["מתכונת תקשורת+ בגרות חנג","","מתכונת 1 במחשבת","מתכונת 1 באנגלית","","",""]}},{"month":"אפריל 2026","dates":["כ\"ה ניסן * 12.04","כ\"ו ניסן * 13.04","כ\"ז ניסן * 14.04","כ\"ח ניסן * 15.04","כ\"ט ניסן * 16.04","ל' ניסן * 17.04","א' אייר * 18.04"],"grades":{"שכבת י\"א":["","מתכונת 1 בתנ\"ך","","אסיפת הורים","מתכונת 1 בתלמוד","",""],"שכבת י\"ב":["מתכונת 1 מתמטיקה","","","מתכונת 1 בתלמוד","בגרות תקשורת","",""]}},{"month":"מאי 2026","dates":["ט' אייר * 26.04","י' אייר * 27.04","י\"א אייר * 28.04","י\"ב אייר * 29.04","י\"ג אייר * 30.04","י\"ד אייר * 01.05","ט\"ו אייר * 02.05"],"grades":{"שכבת י\"א":["מתכונת 2 במתמטיקה","","מתכונת אנגלית","מתכונת 1 מדעי המחשב","","",""],"שכבת י\"ב":["","בגרות מחשבת","","מתכונת 2 במתמטיקה","מתכונת 1 תנך","",""]}},{"month":"מאי 2026","dates":["א' סיוון * 17.05","ב' סיוון * 18.05","ג' סיוון * 19.05","ד' סיוון * 20.05","ה' סיוון * 21.05","ו' סיוון * 22.05","ז' סיוון * 23.05"],"grades":{"שכבת י\"א":["מתכונת 2 מדעי המחשב","בגרות E,A","בגרות אנגלית C,G","מבחן ל\"ב נתיבות","","",""],"שכבת י\"ב":["","בגרות E,A","בגרות אנגלית C,G","מבחן לב נתיבות","","",""]}},{"month":"יוני 2026","dates":["ח' סיוון * 24.05","ט' סיוון * 25.05","י' סיוון * 26.05","י\"א סיוון * 27.05","י\"ב סיוון * 28.05","י\"ג סיוון * 29.05","י\"ד סיוון * 30.05"],"grades":{"שכבת י\"א":["","","","","","",""],"שכבת י\"ב":["","בגרות תלמוד","בגרות תקשורת מעשית","","בגרות תנ\"ך","",""]}}];
 
 // ═══ STATE ═══
-let isEditor=false, currentTab='loz', edits={}, activeLayers=new Set([...CAT_ORDER,...GRADE_LAYERS]), pendingEdit=null;
+let isEditor=false, currentTab='loz', edits={}, activeLayers=new Set([...CAT_ORDER,...GRADE_LAYERS,'בגרויות ומתכונות']), pendingEdit=null;
 try { edits=JSON.parse(localStorage.getItem('sched_v3')||'{}'); } catch(e){}
 
 // ═══ DATE ═══
@@ -251,7 +251,7 @@ document.getElementById('today-badge').textContent=new Date().toLocaleDateString
 function buildLayersBar(){
   let h='<span class="layers-label">קטגוריות:</span>';
   CAT_ORDER.forEach(l=>{ h+=`<span class="layer-chip on" data-layer="${l}" onclick="toggleLayer(this,'${l.replace(/'/g,"\\'")}')">${l}</span>`; });
-  h+='<div class="layer-divider"></div><span class="layers-label">שכבות:</span>';
+  h+='<div class="layer-divider"></div>';h+=`<span class="layer-chip on" data-layer="בגרויות ומתכונות" onclick="toggleLayer(this,'בגרויות ומתכונות')">🎓 בגרויות</span>`;h+='<div class="layer-divider"></div><span class="layers-label">שכבות:</span>';
   GRADE_LAYERS.forEach(l=>{ h+=`<span class="layer-chip on" data-layer="${l}" onclick="toggleLayer(this,'${l.replace(/"/g,"&quot;").replace(/'/g,"\\'")}' )">${l}</span>`; });
   h+='<div class="layer-divider"></div><button class="layer-ctrl" onclick="allLayers()">הכל</button><button class="layer-ctrl" onclick="clearLayers()">נקה</button>';
   document.getElementById('layers-bar').innerHTML=h;
@@ -265,7 +265,7 @@ function toggleLayer(el,layer){
   el.classList.toggle('on',activeLayers.has(layer));
   applyLayers();
 }
-function allLayers(){[...CAT_ORDER,...GRADE_LAYERS].forEach(l=>activeLayers.add(l));document.querySelectorAll('.layer-chip').forEach(c=>c.classList.add('on'));applyLayers();}
+function allLayers(){[...CAT_ORDER,...GRADE_LAYERS,'בגרויות ומתכונות'].forEach(l=>activeLayers.add(l));document.querySelectorAll('.layer-chip').forEach(c=>c.classList.add('on'));applyLayers();}
 function clearLayers(){activeLayers.clear();document.querySelectorAll('.layer-chip').forEach(c=>c.classList.remove('on'));applyLayers();}
 function applyLayers(){
   document.querySelectorAll('.cat-row[data-cat]').forEach(r=>r.classList.toggle('layer-hidden',!activeLayers.has(r.dataset.cat)));
@@ -289,12 +289,36 @@ function badges(layers){
 function getV(key,fb){return edits.hasOwnProperty(key)?edits[key]:(fb||'');}
 function getLayers(key){const v=edits['layers_'+key];return v?v.split(',').filter(Boolean):[];}
 
+// ═══ BAGRUT HELPER ═══
+// Build a map: secular date string -> {ya: text, yb: text}
+function buildBagrutMap() {
+  const map = {};
+  BAGRUT_DATA.forEach((week,wi) => {
+    week.dates.forEach((d,di) => {
+      if (!d) return;
+      const secular = (d.split(' * ')[1]||'').trim();
+      if (!secular) return;
+      ['שכבת י"א','שכבת י"ב'].forEach(grade => {
+        const evs = (week.grades||{})[grade]||[];
+        const ev = evs[di]||'';
+        const key = `bg-${wi}-${grade}-${di}`;
+        const val = getV(key, ev);
+        if (val && val.trim()) {
+          if (!map[secular]) map[secular] = {};
+          if (!map[secular][grade]) map[secular][grade] = [];
+          map[secular][grade].push({text:val.trim(), key});
+        }
+      });
+    });
+  });
+  return map;
+}
+
 // ═══ RENDER ═══
 function render(){
   const s=document.getElementById('search-input').value.toLowerCase().trim();
   if(currentTab==='loz')renderSched(s);
-  else if(currentTab==='exams')renderExam(EXAMS_DATA,s,'ex');
-  else renderExam(BAGRUT_DATA,s,'bg');
+  else renderExam(EXAMS_DATA,s,'ex');
 }
 
 function renderSched(search){
@@ -312,7 +336,29 @@ function renderSched(search){
       mc+=`<div class="week-block${isCur?' current-week':''}" id="week-${wi}"><div class="week-head"><div class="wh-label">שבוע</div>`;
       w.dates.forEach((d,i)=>{const p=d?d.split(' * '):['',''];mc+=`<div class="wh-day${i===6?' shabbat':''}"><div class="wh-name">${DAY_NAMES[i]}</div><div class="wh-heb">${isToday(d)?'<span class="today-dot"></span>':''}${p[0]||''}</div><div class="wh-sec">${p[1]||''}</div></div>`;});
       mc+=`</div>`;
+      const bagMap = buildBagrutMap();
       CAT_ORDER.forEach(cat=>{
+        // Special handling for בגרויות ומתכונות — pull from BAGRUT_DATA by date
+        if (cat === 'בגרויות ומתכונות') {
+          const hidden = !activeLayers.has(cat);
+          mc+=`<div class="cat-row${hidden?' layer-hidden':''}" data-cat="${cat}"><div class="cat-lbl bag">${cat}</div>`;
+          w.dates.forEach((d,di)=>{
+            const secular = (d?d.split(' * ')[1]||'':'').trim();
+            const bagEvents = bagMap[secular]||{};
+            let cellContent = '';
+            ['שכבת י"א','שכבת י"ב'].forEach(grade=>{
+              (bagEvents[grade]||[]).forEach(({text,key})=>{
+                const gCss = GRADE_CSS[grade]||'';
+                const gLbl = GRADE_LBL[grade]||grade;
+                cellContent += `<div style="margin-bottom:2px">${tag(text)}<span class="gbadge ${gCss}" style="font-size:0.58rem;padding:1px 4px;margin-right:2px">${gLbl}</span></div>`;
+              });
+            });
+            const editorPlus = isEditor&&!cellContent?'<span style="color:#ddd;font-size:0.66rem">+</span>':'';
+            mc+=`<div class="event-cell${cls(cellContent)==='exam'?' exam-cell':''}">${cellContent}${editorPlus}</div>`;
+          });
+          mc+=`</div>`;
+          return;
+        }
         const evs=w.categories[cat]||Array(7).fill('');
         mc+=`<div class="cat-row${activeLayers.has(cat)?'':' layer-hidden'}" data-cat="${cat}"><div class="cat-lbl ${CAT_CSS[cat]||'ach'}">${cat}</div>`;
         evs.forEach((ev,di)=>{
