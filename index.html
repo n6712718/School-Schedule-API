@@ -7,414 +7,165 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f4f1eb;
-  --surface: #ffffff;
-  --border: #ddd8cc;
-  --text: #1c1812;
-  --muted: #7a7269;
-  --accent: #2c5f2e;
-  --accent2: #c47b1a;
-  --accent3: #8b2635;
-  --header: #1c1812;
-  --radius: 10px;
-  --sh: 0 2px 12px rgba(0,0,0,0.07);
-  --sh-lg: 0 8px 32px rgba(0,0,0,0.14);
+  --bg: #f4f1eb; --surface: #fff; --border: #ddd8cc; --text: #1c1812; --muted: #7a7269;
+  --accent: #2c5f2e; --accent2: #c47b1a; --header: #1c1812;
+  --radius: 10px; --sh: 0 2px 12px rgba(0,0,0,0.07); --sh-lg: 0 8px 32px rgba(0,0,0,0.14);
+  --c-chag:#7a3a00; --c-pad:#1a3a6b; --c-hev:#2c5f2e; --c-pni:#7a2030; --c-ris:#4a4a6a; --c-ach:#5a4520;
+  --g-z:#b55a00; --g-h:#006080; --g-t:#5a006b; --g-y:#006b3a; --g-ya:#3a006b; --g-yb:#6b2000;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Heebo',sans-serif; background:var(--bg); color:var(--text); direction:rtl; min-height:100vh; }
 
-  /* Category colors */
-  --c-padagogi: #1a3a6b;
-  --c-hevrati: #2c5f2e;
-  --c-pnimiya: #7a2030;
-  --c-rishhum: #4a4a6a;
-  --c-yaatz: #3d6b4a;
-  --c-acher: #5a4520;
+.header { background:var(--header); color:#fff; height:60px; padding:0 22px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:200; box-shadow:0 2px 20px rgba(0,0,0,0.3); }
+.logo { font-size:1.05rem; font-weight:800; } .logo em { color:var(--accent2); font-style:normal; }
+.header-right { display:flex; align-items:center; gap:7px; }
+.today-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:3px 11px; font-size:0.73rem; color:rgba(255,255,255,0.75); }
 
-  /* Grade colors */
-  --c-z: #b55a00;
-  --c-h: #006080;
-  --c-t: #5a006b;
-  --c-y: #006b3a;
-  --c-ya: #3a006b;
-  --c-yb: #6b2000;
-}
+.btn { padding:5px 13px; border:none; border-radius:6px; cursor:pointer; font-family:'Heebo',sans-serif; font-size:0.8rem; font-weight:600; transition:all 0.15s; white-space:nowrap; }
+.btn-ghost { background:transparent; border:1.5px solid rgba(255,255,255,0.25); color:rgba(255,255,255,0.8); }
+.btn-ghost:hover { background:rgba(255,255,255,0.1); }
+.btn-gold { background:var(--accent2); color:#fff; } .btn-gold:hover { background:#b36e15; }
+.btn-red { background:#b52828; color:#fff; }
+.btn-green { background:var(--accent); color:#fff; }
+.btn-excel { background:#1d6f42; color:#fff; } .btn-excel:hover { background:#155230; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Heebo', sans-serif; background: var(--bg); color: var(--text); direction: rtl; min-height: 100vh; }
+.tabs-bar { background:var(--surface); border-bottom:2px solid var(--border); padding:0 22px; display:flex; align-items:center; position:sticky; top:60px; z-index:150; }
+.tab-btn { padding:12px 18px; border:none; background:transparent; font-family:'Heebo',sans-serif; font-size:0.86rem; font-weight:600; color:var(--muted); cursor:pointer; border-bottom:3px solid transparent; margin-bottom:-2px; transition:all 0.15s; }
+.tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+.tabs-spacer { flex:1; }
 
-/* ── HEADER ── */
-.header {
-  background: var(--header);
-  color: #fff;
-  height: 60px;
-  padding: 0 28px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 200;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-}
-.logo { font-size: 1.1rem; font-weight: 800; letter-spacing: 0.01em; }
-.logo em { color: var(--accent2); font-style: normal; }
-.header-right { display: flex; align-items: center; gap: 10px; }
-.today-badge {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 20px;
-  padding: 4px 14px;
-  font-size: 0.78rem; color: rgba(255,255,255,0.75);
-}
+.layers-bar { background:var(--surface); border-bottom:1px solid var(--border); padding:8px 22px; display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
+.layers-label { font-size:0.72rem; font-weight:700; color:var(--muted); }
+.layer-chip { padding:4px 11px; border-radius:20px; border:2px solid; font-size:0.72rem; font-weight:700; cursor:pointer; transition:all 0.15s; user-select:none; opacity:0.38; }
+.layer-chip.on { opacity:1; }
+.layer-chip[data-layer="מעגל השנה"]  { border-color:var(--c-chag); color:var(--c-chag); } .layer-chip[data-layer="מעגל השנה"].on  { background:var(--c-chag);  color:#fff; }
+.layer-chip[data-layer="פדגוגי"]     { border-color:var(--c-pad);  color:var(--c-pad);  } .layer-chip[data-layer="פדגוגי"].on     { background:var(--c-pad);   color:#fff; }
+.layer-chip[data-layer="חברתי"]      { border-color:var(--c-hev);  color:var(--c-hev);  } .layer-chip[data-layer="חברתי"].on      { background:var(--c-hev);   color:#fff; }
+.layer-chip[data-layer="פנימיה"]     { border-color:var(--c-pni);  color:var(--c-pni);  } .layer-chip[data-layer="פנימיה"].on     { background:var(--c-pni);   color:#fff; }
+.layer-chip[data-layer="רישום"]      { border-color:var(--c-ris);  color:var(--c-ris);  } .layer-chip[data-layer="רישום"].on      { background:var(--c-ris);   color:#fff; }
+.layer-chip[data-layer="אחר"]        { border-color:var(--c-ach);  color:var(--c-ach);  } .layer-chip[data-layer="אחר"].on        { background:var(--c-ach);   color:#fff; }
+.layer-chip[data-layer="שכבת ז"]    { border-color:var(--g-z);   color:var(--g-z);   } .layer-chip[data-layer="שכבת ז"].on    { background:var(--g-z);    color:#fff; }
+.layer-chip[data-layer="שכבת ח"]    { border-color:var(--g-h);   color:var(--g-h);   } .layer-chip[data-layer="שכבת ח"].on    { background:var(--g-h);    color:#fff; }
+.layer-chip[data-layer="שכבת ט"]    { border-color:var(--g-t);   color:var(--g-t);   } .layer-chip[data-layer="שכבת ט"].on    { background:var(--g-t);    color:#fff; }
+.layer-chip[data-layer="שכבת י"]    { border-color:var(--g-y);   color:var(--g-y);   } .layer-chip[data-layer="שכבת י"].on    { background:var(--g-y);    color:#fff; }
+.layer-chip[data-layer='שכבת י"א']  { border-color:var(--g-ya);  color:var(--g-ya);  } .layer-chip[data-layer='שכבת י"א'].on  { background:var(--g-ya);   color:#fff; }
+.layer-chip[data-layer='שכבת י"ב']  { border-color:var(--g-yb);  color:var(--g-yb);  } .layer-chip[data-layer='שכבת י"ב'].on  { background:var(--g-yb);   color:#fff; }
+.layer-divider { width:1px; height:20px; background:var(--border); margin:0 3px; }
+.layer-ctrl { padding:3px 9px; border-radius:20px; font-size:0.68rem; font-weight:700; cursor:pointer; border:1.5px solid var(--border); background:var(--bg); color:var(--muted); transition:all 0.15s; }
+.layer-ctrl:hover { border-color:var(--text); color:var(--text); }
 
-/* ── BUTTONS ── */
-.btn {
-  padding: 6px 16px; border: none; border-radius: 6px;
-  cursor: pointer; font-family: 'Heebo', sans-serif;
-  font-size: 0.83rem; font-weight: 600; transition: all 0.15s;
-  white-space: nowrap;
-}
-.btn-ghost { background: transparent; border: 1.5px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.8); }
-.btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
-.btn-gold { background: var(--accent2); color: #fff; }
-.btn-gold:hover { background: #b36e15; }
-.btn-red { background: #b52828; color: #fff; }
-.btn-red:hover { background: #9a2020; }
-.btn-green { background: var(--accent); color: #fff; }
-.btn-green:hover { background: #215022; }
+.search-bar { background:var(--bg); padding:8px 22px; display:flex; align-items:center; gap:9px; border-bottom:1px solid var(--border); }
+.search-wrap { position:relative; flex:1; max-width:300px; }
+.search-wrap input { width:100%; padding:6px 30px 6px 9px; border:1.5px solid var(--border); border-radius:8px; font-family:'Heebo',sans-serif; font-size:0.84rem; background:var(--surface); outline:none; direction:rtl; text-align:right; }
+.search-wrap input:focus { border-color:var(--accent); }
+.search-ico { position:absolute; left:8px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:0.88rem; }
+.month-sel { padding:6px 8px; border:1.5px solid var(--border); border-radius:8px; font-family:'Heebo',sans-serif; font-size:0.81rem; background:var(--surface); outline:none; cursor:pointer; }
+.jump-today { font-size:0.78rem; font-weight:600; color:var(--accent); cursor:pointer; text-decoration:underline; background:none; border:none; font-family:'Heebo',sans-serif; }
 
-/* ── TABS ── */
-.tabs-bar {
-  background: var(--surface);
-  border-bottom: 2px solid var(--border);
-  padding: 0 28px;
-  display: flex; align-items: center; gap: 0;
-  position: sticky; top: 60px; z-index: 150;
-}
-.tab-btn {
-  padding: 14px 22px;
-  border: none; background: transparent;
-  font-family: 'Heebo', sans-serif; font-size: 0.9rem; font-weight: 600;
-  color: var(--muted); cursor: pointer;
-  border-bottom: 3px solid transparent; margin-bottom: -2px;
-  transition: all 0.15s;
-}
-.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-.tab-btn:hover:not(.active) { color: var(--text); }
-.tabs-spacer { flex: 1; }
+.main { padding:16px 22px; max-width:1480px; margin:0 auto; }
 
-/* ── LAYER TOGGLE BAR ── */
-.layers-bar {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 10px 28px;
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-}
-.layers-label { font-size: 0.78rem; font-weight: 700; color: var(--muted); margin-left: 4px; }
-.layer-chip {
-  padding: 5px 14px; border-radius: 20px; border: 2px solid;
-  font-size: 0.78rem; font-weight: 700; cursor: pointer;
-  transition: all 0.15s; user-select: none;
-  opacity: 0.4;
-}
-.layer-chip.on { opacity: 1; }
-.layer-chip[data-layer="פדגוגי"]  { border-color: var(--c-padagogi); color: var(--c-padagogi); }
-.layer-chip[data-layer="פדגוגי"].on  { background: var(--c-padagogi); color: #fff; }
-.layer-chip[data-layer="חברתי"]   { border-color: var(--c-hevrati);  color: var(--c-hevrati); }
-.layer-chip[data-layer="חברתי"].on   { background: var(--c-hevrati);  color: #fff; }
-.layer-chip[data-layer="פנימיה"]  { border-color: var(--c-pnimiya);  color: var(--c-pnimiya); }
-.layer-chip[data-layer="פנימיה"].on  { background: var(--c-pnimiya);  color: #fff; }
-.layer-chip[data-layer="רישום"]   { border-color: var(--c-rishhum);  color: var(--c-rishhum); }
-.layer-chip[data-layer="רישום"].on   { background: var(--c-rishhum);  color: #fff; }
-.layer-chip[data-layer="יעוץ"]    { border-color: var(--c-yaatz);    color: var(--c-yaatz); }
-.layer-chip[data-layer="יעוץ"].on    { background: var(--c-yaatz);    color: #fff; }
-.layer-chip[data-layer="אחר"]     { border-color: var(--c-acher);    color: var(--c-acher); }
-.layer-chip[data-layer="אחר"].on     { background: var(--c-acher);    color: #fff; }
-.layer-chip[data-layer="שכבת ז"]  { border-color: var(--c-z); color: var(--c-z); }
-.layer-chip[data-layer="שכבת ז"].on  { background: var(--c-z); color: #fff; }
-.layer-chip[data-layer="שכבת ח"]  { border-color: var(--c-h); color: var(--c-h); }
-.layer-chip[data-layer="שכבת ח"].on  { background: var(--c-h); color: #fff; }
-.layer-chip[data-layer="שכבת ט"]  { border-color: var(--c-t); color: var(--c-t); }
-.layer-chip[data-layer="שכבת ט"].on  { background: var(--c-t); color: #fff; }
-.layer-chip[data-layer='שכבת י']  { border-color: var(--c-y); color: var(--c-y); }
-.layer-chip[data-layer='שכבת י'].on  { background: var(--c-y); color: #fff; }
-.layer-chip[data-layer='שכבת י"א'] { border-color: var(--c-ya); color: var(--c-ya); }
-.layer-chip[data-layer='שכבת י"א'].on { background: var(--c-ya); color: #fff; }
-.layer-chip[data-layer='שכבת י"ב'] { border-color: var(--c-yb); color: var(--c-yb); }
-.layer-chip[data-layer='שכבת י"ב'].on { background: var(--c-yb); color: #fff; }
-.layer-divider { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
-.layer-all-btn {
-  padding: 4px 12px; border-radius: 20px; font-size: 0.75rem;
-  font-weight: 700; cursor: pointer; border: 1.5px solid var(--border);
-  background: var(--bg); color: var(--muted); transition: all 0.15s;
-}
-.layer-all-btn:hover { border-color: var(--text); color: var(--text); }
+.hero { background:linear-gradient(135deg,#1c1812 55%,#2c5f2e); border-radius:14px; padding:16px 20px; margin-bottom:22px; color:#fff; display:flex; align-items:center; gap:16px; box-shadow:var(--sh-lg); }
+.hero-badge { background:var(--accent2); border-radius:10px; padding:6px 14px; font-size:0.7rem; font-weight:800; white-space:nowrap; }
+.hero-dates { font-size:0.92rem; font-weight:700; margin-top:7px; }
+.hero-sub { font-size:0.74rem; color:rgba(255,255,255,0.5); margin-top:2px; }
+.hero-events { flex:1; display:flex; gap:6px; flex-wrap:wrap; }
+.hero-event { background:rgba(255,255,255,0.12); border-radius:6px; padding:3px 9px; font-size:0.73rem; }
 
-/* ── SEARCH BAR ── */
-.search-bar {
-  background: var(--bg);
-  padding: 10px 28px;
-  display: flex; align-items: center; gap: 10px;
-  border-bottom: 1px solid var(--border);
-}
-.search-wrap { position: relative; flex: 1; max-width: 340px; }
-.search-wrap input {
-  width: 100%; padding: 8px 36px 8px 12px;
-  border: 1.5px solid var(--border); border-radius: 8px;
-  font-family: 'Heebo', sans-serif; font-size: 0.88rem;
-  background: var(--surface); outline: none; direction: rtl; text-align: right;
-}
-.search-wrap input:focus { border-color: var(--accent); }
-.search-ico { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); }
-.month-jump { padding: 8px 10px; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.85rem; background: var(--surface); outline: none; cursor: pointer; }
-.month-jump:focus { border-color: var(--accent); }
-.jump-today-btn { font-size: 0.82rem; font-weight: 600; color: var(--accent); cursor: pointer; text-decoration: underline; background: none; border: none; font-family: 'Heebo', sans-serif; }
+.month-sec { margin-bottom:30px; }
+.month-head { font-size:0.98rem; font-weight:800; color:var(--accent); padding:6px 0 8px; border-bottom:2px solid var(--accent); margin-bottom:11px; }
 
-/* ── MAIN ── */
-.main { padding: 20px 28px; max-width: 1480px; margin: 0 auto; }
+.week-block { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:9px; box-shadow:var(--sh); scroll-margin-top:160px; }
+.week-block.current-week { border:2.5px solid var(--accent2); box-shadow:0 0 0 4px rgba(196,123,26,0.1),var(--sh-lg); }
 
-/* ── CURRENT WEEK HERO ── */
-.current-week-hero {
-  background: linear-gradient(135deg, #1c1812 60%, #2c5f2e);
-  border-radius: 14px;
-  padding: 20px 24px;
-  margin-bottom: 28px;
-  color: #fff;
-  display: flex; align-items: center; gap: 20px;
-  box-shadow: var(--sh-lg);
-}
-.hero-badge {
-  background: var(--accent2);
-  border-radius: 10px;
-  padding: 8px 18px;
-  font-size: 0.75rem; font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.hero-dates { font-size: 1rem; font-weight: 700; }
-.hero-sub { font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-top: 3px; }
-.hero-events { flex: 1; display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-start; }
-.hero-event {
-  background: rgba(255,255,255,0.12);
-  border-radius: 6px; padding: 4px 12px;
-  font-size: 0.78rem; font-weight: 500;
-}
+.week-head { display:grid; grid-template-columns:96px repeat(7,1fr); background:var(--header); }
+.wh-label { display:flex; align-items:center; justify-content:center; font-size:0.58rem; color:rgba(255,255,255,0.32); font-weight:600; padding:8px 3px; border-left:1px solid rgba(255,255,255,0.06); }
+.wh-day { padding:7px 4px; text-align:center; border-right:1px solid rgba(255,255,255,0.06); }
+.wh-day.shabbat .wh-heb { color:#a8e6b0; }
+.wh-name { font-size:0.56rem; color:rgba(255,255,255,0.35); }
+.wh-heb  { font-size:0.71rem; font-weight:700; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wh-sec  { font-size:0.6rem; color:var(--accent2); font-weight:500; }
+.today-dot { display:inline-block; width:5px; height:5px; background:var(--accent2); border-radius:50%; margin-left:2px; vertical-align:middle; }
 
-/* ── MONTH SECTION ── */
-.month-sec { margin-bottom: 36px; }
-.month-head {
-  font-size: 1.05rem; font-weight: 800; color: var(--accent);
-  padding: 8px 0 10px;
-  border-bottom: 2px solid var(--accent);
-  margin-bottom: 14px;
-  display: flex; align-items: center; justify-content: space-between;
-}
+.cat-row { display:grid; grid-template-columns:96px repeat(7,1fr); border-top:1px solid var(--border); }
+.cat-row.layer-hidden { display:none; }
+.cat-lbl { display:flex; align-items:center; justify-content:center; padding:5px 3px; font-size:0.65rem; font-weight:800; color:#fff; text-align:center; border-left:1px solid rgba(255,255,255,0.15); }
+.cat-lbl.chag { background:var(--c-chag); }
+.cat-lbl.pad  { background:var(--c-pad);  }
+.cat-lbl.hev  { background:var(--c-hev);  }
+.cat-lbl.pni  { background:var(--c-pni);  }
+.cat-lbl.ris  { background:var(--c-ris);  }
+.cat-lbl.ach  { background:var(--c-ach);  }
 
-/* ── WEEK BLOCK ── */
-.week-block {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  margin-bottom: 12px;
-  box-shadow: var(--sh);
-  scroll-margin-top: 160px;
-}
-.week-block.current-week {
-  border: 2.5px solid var(--accent2);
-  box-shadow: 0 0 0 4px rgba(196,123,26,0.12), var(--sh-lg);
-}
+.event-cell { padding:5px 5px; min-height:38px; border-right:1px solid var(--border); font-size:0.72rem; line-height:1.4; }
+.event-cell:last-child { border-right:none; }
+.event-cell.holiday-cell { background:#fff5f5; }
+.event-cell.shabbat-cell { background:#f2fbf3; }
+.event-cell.editable { cursor:pointer; }
+.event-cell.editable:hover { background:#fffbf0!important; outline:2px dashed var(--accent2); outline-offset:-2px; }
 
-/* dates header row */
-.week-head {
-  display: grid;
-  grid-template-columns: 110px repeat(7, 1fr);
-  background: var(--header);
-}
-.wh-label {
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.65rem; color: rgba(255,255,255,0.4); font-weight: 600;
-  padding: 10px 4px;
-  border-left: 1px solid rgba(255,255,255,0.06);
-}
-.wh-day {
-  padding: 9px 6px; text-align: center;
-  border-right: 1px solid rgba(255,255,255,0.06);
-}
-.wh-day.shabbat .wh-heb { color: #a8e6b0; }
-.wh-heb { font-size: 0.76rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.wh-sec { font-size: 0.65rem; color: var(--accent2); font-weight: 500; }
-.wh-name { font-size: 0.62rem; color: rgba(255,255,255,0.4); }
-.today-marker { display: inline-block; width: 6px; height: 6px; background: var(--accent2); border-radius: 50%; margin-right: 3px; vertical-align: middle; }
+.etag { display:inline-block; border-radius:4px; padding:2px 5px; font-size:0.68rem; font-weight:500; margin:1px; line-height:1.4; }
+.etag.general { background:#edf3ff; color:#1a3a6b; }
+.etag.holiday  { background:#fdecea; color:#7a1a1a; }
+.etag.shabbat  { background:#e8f5e9; color:#1a4a1a; }
+.etag.exam     { background:#f3e5f5; color:#5a1a6b; }
 
-/* category row */
-.cat-row {
-  display: grid;
-  grid-template-columns: 110px repeat(7, 1fr);
-  border-top: 1px solid var(--border);
-  transition: opacity 0.2s;
-}
-.cat-row.layer-hidden { display: none; }
-.cat-lbl {
-  display: flex; align-items: center; justify-content: center;
-  padding: 7px 6px; font-size: 0.72rem; font-weight: 800;
-  color: #fff; text-align: center;
-  border-left: 1px solid rgba(255,255,255,0.15);
-}
-.cat-lbl.padagogi { background: var(--c-padagogi); }
-.cat-lbl.hevrati  { background: var(--c-hevrati); }
-.cat-lbl.pnimiya  { background: var(--c-pnimiya); }
-.cat-lbl.rishhum  { background: var(--c-rishhum); }
-.cat-lbl.yaatz    { background: var(--c-yaatz); }
-.cat-lbl.acher    { background: var(--c-acher); }
-.cat-lbl.other    { background: #555; }
+.grade-badges { display:flex; flex-wrap:wrap; gap:2px; margin-top:3px; }
+.gbadge { display:inline-block; border-radius:3px; padding:1px 5px; font-size:0.6rem; font-weight:700; color:#fff; }
+.gbadge.gz { background:var(--g-z); } .gbadge.gh { background:var(--g-h); }
+.gbadge.gt { background:var(--g-t); } .gbadge.gy { background:var(--g-y); }
+.gbadge.gya { background:var(--g-ya); } .gbadge.gyb { background:var(--g-yb); }
 
-.event-cell {
-  padding: 6px 7px; min-height: 42px;
-  border-right: 1px solid var(--border);
-  font-size: 0.76rem; line-height: 1.4;
-  vertical-align: top; position: relative;
-}
-.event-cell:last-child { border-right: none; }
-.event-cell.holiday-cell { background: #fff5f5; }
-.event-cell.shabbat-cell { background: #f2fbf3; }
+.exam-wrap { overflow-x:auto; margin-bottom:9px; }
+.exam-tbl { width:100%; border-collapse:collapse; font-size:0.72rem; min-width:600px; box-shadow:var(--sh); }
+.exam-tbl th { background:var(--header); color:#fff; padding:7px; text-align:center; font-weight:600; font-size:0.68rem; border-right:1px solid rgba(255,255,255,0.08); white-space:nowrap; }
+.exam-tbl td { padding:6px; border:1px solid var(--border); text-align:center; vertical-align:top; min-width:66px; }
+.exam-tbl td.grade-td { background:#1a0a30; color:#fff; font-weight:700; font-size:0.68rem; }
+.exam-tbl td.exam-cell { background:#faf0ff; } .exam-tbl td.bagrut-cell { background:#fff0e8; }
+.exam-tbl tr[data-grade-row].layer-hidden { display:none; }
 
-.etag {
-  display: inline-block; border-radius: 4px;
-  padding: 2px 6px; font-size: 0.72rem; font-weight: 500;
-  margin: 1px; line-height: 1.4;
-}
-.etag.general { background: #edf3ff; color: #1a3a6b; }
-.etag.holiday { background: #fdecea; color: #7a1a1a; }
-.etag.shabbat { background: #e8f5e9; color: #1a4a1a; }
-.etag.exam    { background: #f3e5f5; color: #5a1a6b; }
+.modal-ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; align-items:center; justify-content:center; }
+.modal-ov.open { display:flex; }
+.modal { background:var(--surface); border-radius:14px; padding:24px 28px; width:390px; max-width:95vw; box-shadow:var(--sh-lg); }
+.modal h3 { font-size:1rem; font-weight:800; margin-bottom:14px; }
+.fl { font-size:0.76rem; font-weight:700; color:var(--muted); margin-bottom:4px; }
+.fi { width:100%; padding:8px 10px; border:1.5px solid var(--border); border-radius:8px; font-family:'Heebo',sans-serif; font-size:0.86rem; outline:none; direction:rtl; text-align:right; margin-bottom:11px; }
+.fi:focus { border-color:var(--accent); }
+.layers-grid { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:13px; }
+.lcheck { display:flex; align-items:center; gap:4px; cursor:pointer; }
+.lcheck input { cursor:pointer; }
+.modal-actions { display:flex; gap:8px; }
+.modal-actions .btn { flex:1; }
+.login-modal { width:310px; text-align:center; }
+.login-modal p { color:var(--muted); font-size:0.81rem; margin-bottom:16px; }
+#pw-err { color:#b52828; font-size:0.78rem; margin-top:6px; display:none; }
 
-/* grade chips on event tags */
-.grade-dot {
-  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
-  margin-left: 3px; vertical-align: middle;
-}
+.status-bar { position:fixed; bottom:0; left:0; right:0; background:var(--header); color:rgba(255,255,255,0.75); padding:6px 22px; font-size:0.74rem; display:flex; align-items:center; gap:12px; z-index:100; transform:translateY(100%); transition:transform 0.3s; }
+.status-bar.show { transform:translateY(0); }
+.status-close { cursor:pointer; color:var(--accent2); font-weight:700; }
+.edit-badge { background:#fef3cd; border:1.5px solid #f0c030; color:#7a5a00; border-radius:6px; padding:2px 8px; font-size:0.7rem; font-weight:700; }
 
-/* edit mode */
-.event-cell.editable { cursor: pointer; }
-.event-cell.editable:hover { background: #fffbf0 !important; outline: 2px dashed var(--accent2); outline-offset: -2px; }
-.event-cell.editing { outline: 2.5px solid var(--accent2) !important; background: #fffbf0 !important; }
-.edit-ta {
-  width: 100%; border: none; outline: none; resize: none;
-  background: transparent; font-family: 'Heebo', sans-serif;
-  font-size: 0.76rem; line-height: 1.4; direction: rtl; text-align: right;
-  min-height: 36px;
-}
-
-/* ── EXAM/BAGRUT TABLE ── */
-.exam-wrap { overflow-x: auto; margin-bottom: 12px; }
-.exam-tbl {
-  width: 100%; border-collapse: collapse;
-  font-size: 0.76rem; min-width: 640px;
-  border-radius: var(--radius); overflow: hidden;
-  box-shadow: var(--sh);
-}
-.exam-tbl th {
-  background: var(--header); color: #fff;
-  padding: 8px 8px; text-align: center;
-  font-weight: 600; font-size: 0.72rem;
-  border-right: 1px solid rgba(255,255,255,0.08);
-  white-space: nowrap;
-}
-.exam-tbl th.grade-th { min-width: 70px; }
-.exam-tbl td {
-  padding: 7px 7px; border: 1px solid var(--border);
-  text-align: center; vertical-align: top; min-width: 70px;
-}
-.exam-tbl td.grade-td { background: #1a0a30; color: #fff; font-weight: 700; font-size: 0.72rem; }
-.exam-tbl tr:hover td:not(.grade-td) { background: #fafff9; }
-.exam-tbl td.exam-cell { background: #faf0ff; }
-.exam-tbl td.bagrut-cell { background: #fff0e8; }
-.exam-tbl td.matkon-cell { background: #f0f8ff; }
-.exam-tbl td.grade-hidden { display: none; }
-.exam-tbl th.grade-hidden { display: none; }
-
-/* ── ADD EVENT MODAL ── */
-.modal-ov {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5); z-index: 500;
-  align-items: center; justify-content: center;
-}
-.modal-ov.open { display: flex; }
-.modal {
-  background: var(--surface); border-radius: 14px;
-  padding: 28px 32px; width: 420px; max-width: 95vw;
-  box-shadow: var(--sh-lg);
-}
-.modal h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 18px; }
-.field-label { font-size: 0.8rem; font-weight: 700; color: var(--muted); margin-bottom: 5px; }
-.field-input {
-  width: 100%; padding: 9px 12px; border: 1.5px solid var(--border);
-  border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.9rem;
-  outline: none; direction: rtl; text-align: right; margin-bottom: 14px;
-}
-.field-input:focus { border-color: var(--accent); }
-.layers-check-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
-.layer-check-item { display: flex; align-items: center; gap: 6px; cursor: pointer; }
-.layer-check-item input { cursor: pointer; }
-.layer-check-item span { font-size: 0.82rem; font-weight: 600; }
-.modal-actions { display: flex; gap: 10px; margin-top: 4px; }
-.modal-actions .btn { flex: 1; }
-
-/* ── LOGIN MODAL ── */
-.login-modal { width: 340px; text-align: center; }
-.login-modal h3 { margin-bottom: 8px; }
-.login-modal p { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
-#pw-err { color: #b52828; font-size: 0.82rem; margin-top: 8px; display: none; }
-
-/* ── STATUS BAR ── */
-.status-bar {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--header); color: rgba(255,255,255,0.7);
-  padding: 6px 28px; font-size: 0.78rem;
-  display: flex; align-items: center; gap: 16px;
-  z-index: 100; transform: translateY(100%); transition: transform 0.3s;
-}
-.status-bar.show { transform: translateY(0); }
-.status-msg { flex: 1; }
-.status-close { cursor: pointer; color: var(--accent2); font-weight: 700; }
-
-/* ── EDIT BADGE ── */
-.edit-badge {
-  background: #fef3cd; border: 1.5px solid #f0c030; color: #7a5a00;
-  border-radius: 6px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700;
-}
-
-/* ── LOADING ── */
-.loading { text-align: center; padding: 60px 20px; color: var(--muted); }
-.spin { display: inline-block; width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ── API STATUS ── */
-.api-info {
-  background: #fff8e8; border: 1.5px solid #f0c030; border-radius: 8px;
-  padding: 10px 16px; margin-bottom: 16px; font-size: 0.82rem; color: #6a4a00;
-}
-.api-info strong { display: block; font-size: 0.88rem; margin-bottom: 3px; }
-
-@media (max-width: 768px) {
-  .header, .tabs-bar, .layers-bar, .search-bar, .main { padding-right: 14px; padding-left: 14px; }
-  .week-head, .cat-row { grid-template-columns: 72px repeat(7, 1fr); }
-  .cat-lbl { font-size: 0.58rem; padding: 4px 2px; }
-  .current-week-hero { flex-direction: column; align-items: flex-start; gap: 10px; }
+@media (max-width:768px) {
+  .header,.tabs-bar,.layers-bar,.search-bar,.main { padding-right:11px; padding-left:11px; }
+  .week-head,.cat-row { grid-template-columns:58px repeat(7,1fr); }
+  .cat-lbl { font-size:0.52rem; padding:3px 1px; }
+  .hero { flex-direction:column; align-items:flex-start; }
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="header">
   <div class="logo">לוח שנה <em>תשפ"ו</em></div>
   <div class="header-right">
-    <span class="today-badge" id="today-badge">טוען...</span>
-    <span class="edit-badge" id="edit-badge" style="display:none">✏️ מצב עריכה</span>
+    <span class="today-badge" id="today-badge"></span>
+    <span class="edit-badge" id="edit-badge" style="display:none">✏️ עריכה</span>
+    <button class="btn btn-excel" onclick="exportExcel()">⬇️ Excel</button>
     <button class="btn btn-ghost" id="login-btn" onclick="openLogin()">כניסת עורך</button>
     <button class="btn btn-red" id="logout-btn" style="display:none" onclick="doLogout()">יציאה</button>
     <button class="btn btn-gold" id="save-btn" style="display:none" onclick="saveEdits()">💾 שמור</button>
   </div>
 </header>
 
-<!-- TABS -->
 <div class="tabs-bar">
   <button class="tab-btn active" id="tab-loz" onclick="switchTab('loz')">📅 לו"ז כללי</button>
   <button class="tab-btn" id="tab-exams" onclick="switchTab('exams')">📝 מבחנים</button>
@@ -422,41 +173,31 @@ body { font-family: 'Heebo', sans-serif; background: var(--bg); color: var(--tex
   <div class="tabs-spacer"></div>
 </div>
 
-<!-- LAYERS BAR -->
-<div class="layers-bar" id="layers-bar">
-  <span class="layers-label">שכבות:</span>
-  <!-- populated by JS -->
-</div>
+<div class="layers-bar" id="layers-bar"></div>
 
-<!-- SEARCH BAR -->
 <div class="search-bar">
   <div class="search-wrap">
     <input type="text" id="search-input" placeholder="חיפוש..." oninput="render()">
     <span class="search-ico">🔍</span>
   </div>
-  <select class="month-jump" id="month-select" onchange="jumpToMonth(this.value)">
+  <select class="month-sel" id="month-select" onchange="jumpToMonth(this.value)">
     <option value="">עבור לחודש...</option>
   </select>
-  <button class="jump-today-btn" onclick="jumpToToday()">↩ השבוע הנוכחי</button>
+  <button class="jump-today" onclick="jumpToToday()">↩ השבוע הנוכחי</button>
 </div>
 
-<!-- MAIN -->
-<main class="main" id="main">
-  <div class="loading"><div class="spin"></div><p style="margin-top:12px">טוען נתונים...</p></div>
-</main>
+<main class="main" id="main"></main>
 
-<!-- STATUS BAR -->
 <div class="status-bar" id="status-bar">
-  <span class="status-msg" id="status-msg"></span>
+  <span id="status-msg" style="flex:1"></span>
   <span class="status-close" onclick="hideStatus()">✕</span>
 </div>
 
-<!-- LOGIN MODAL -->
 <div class="modal-ov" id="login-modal">
   <div class="modal login-modal">
     <h3>🔐 כניסת עורכים</h3>
     <p>הזן את סיסמת העריכה</p>
-    <input class="field-input" type="password" id="pw-in" placeholder="סיסמה" onkeydown="if(event.key==='Enter')doLogin()">
+    <input class="fi" type="password" id="pw-in" placeholder="סיסמה" onkeydown="if(event.key==='Enter')doLogin()">
     <div class="modal-actions">
       <button class="btn btn-ghost" style="border-color:#ccc;color:#333" onclick="closeModal('login-modal')">ביטול</button>
       <button class="btn btn-gold" onclick="doLogin()">כניסה</button>
@@ -465,550 +206,250 @@ body { font-family: 'Heebo', sans-serif; background: var(--bg); color: var(--tex
   </div>
 </div>
 
-<!-- ADD/EDIT EVENT MODAL -->
 <div class="modal-ov" id="event-modal">
   <div class="modal">
-    <h3 id="event-modal-title">✏️ עריכת אירוע</h3>
-    <div class="field-label">תוכן האירוע</div>
-    <textarea class="field-input" id="event-text" rows="3" placeholder="הכנס טקסט האירוע..."></textarea>
-    <div class="field-label">לאיזה שכבות האירוע רלוונטי?</div>
-    <div class="layers-check-grid" id="layers-checks"></div>
+    <h3 id="em-title">✏️ עריכת אירוע</h3>
+    <div class="fl">תוכן האירוע</div>
+    <textarea class="fi" id="em-text" rows="3" placeholder="הכנס טקסט..."></textarea>
+    <div class="fl">לאיזה שכבות האירוע רלוונטי? <small style="color:var(--muted);font-weight:400">(לא מסומן = רלוונטי לכולם)</small></div>
+    <div class="layers-grid" id="em-layers"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" style="border-color:#ccc;color:#333" onclick="closeModal('event-modal')">ביטול</button>
-      <button class="btn btn-green" onclick="saveEventModal()">שמור אירוע</button>
+      <button class="btn btn-green" onclick="saveEvent()">שמור</button>
     </div>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════════
-// CONFIGURATION — replace API_URL with your Apps Script Web App URL
-// ═══════════════════════════════════════════════════════════════════
 const API_URL = 'https://script.google.com/macros/s/AKfycbxyV0xQH_PnMsEp2H6_QIuIG1LU57Xait_U2xWHnj7Dc8HbahDvmCSIoW32WioG0m1c/exec';
-const EDIT_PASSWORD = 'editor2025'; // ← שנה סיסמה כאן
+const EDIT_PASSWORD = 'editor2025';
 
-// ═══════════════════════════════════════════════════════════════════
-// BUILT-IN DATA (from the Excel file)
-// ═══════════════════════════════════════════════════════════════════
-const SCHEDULE_DATA = [{"month":"אוגוסט 2025 (אב - אלול תשפ\"ה)","dates":["ב' אב * 27.07","ג' אב * 28.07","ד' אב * 29.07","ה' אב * 30.07","ו' אב * 31.07","ז' אב * 01.08","ח' אב * 02.08"],"categories":{"פדגוגי":["","","","","","","פרשת דברים"],"חברתי":["","","","","","",""],"אחר":["","","","","","",""],"רישום":["","","","","","",""],"פנימיה":["","","","","","",""]}},{"month":"אוגוסט 2025 (אב - אלול תשפ\"ה)","dates":["ט' אב * 03.08","י' אב * 04.08","י\"א אב * 05.08","י\"ב אב * 06.08","י\"ג אב * 07.08","י\"ד אב * 08.08","ט\"ו אב * 09.08"],"categories":{"פדגוגי":["תשעה באב","","","","","","פרשת ואתחנן"],"חברתי":["","","","","","",""],"אחר":["","","","","","",""],"רישום":["","","","","","",""],"פנימיה":["","","","","","",""]}},{"month":"אוגוסט 2025 (אב - אלול תשפ\"ה)","dates":["ט\"ז אב * 10.08","י\"ז אב * 11.08","י\"ח אב * 12.08","י\"ט אב * 13.08","כ' אב * 14.08","כ\"א אב * 15.08","כ\"ב אב * 16.08"],"categories":{"פדגוגי":["","","","","","","פרשת עקב"],"חברתי":["","","","","","",""],"אחר":["","","","","","",""],"רישום":["","","","","","",""],"פנימיה":["","","","","","",""]}},{"month":"ספטמבר 2025 (אלול תשפ\"ה - תשרי תשפ\"ו)","dates":["ז' אלול * 31.08","ח' אלול * 01.09","ט' אלול * 02.09","י' אלול * 03.09","י\"א אלול * 04.09","י\"ב אלול * 05.09","י\"ג אלול * 06.09"],"categories":{"פדגוגי":["","פתיחת שנת הלימודים","ישיבות עדכון חט\"ב 14:30","","מבחני מיפוי מתמטיקה ט'","","פרשת כי תצא"],"חברתי":["","","","","O.D.T חט\"ב","",""],"אחר":["","","","","ישיבות עדכון חט\"ע","",""],"רישום":["","","","","","",""],"פנימיה":["","כינוס פנימיה+ פעילות הכרות מדריך","","פותחים שנה- פנימיה +נקיונות","","",""]}},{"month":"ספטמבר 2025 (אלול תשפ\"ה - תשרי תשפ\"ו)","dates":["י\"ד אלול * 07.09","ט\"ו אלול * 08.09","ט\"ז אלול * 09.09","י\"ז אלול * 10.09","י\"ח אלול * 11.09","י\"ט אלול * 12.09","כ' אלול * 13.09"],"categories":{"פדגוגי":["","","","מבחני מיפוי אנגלית ט'","","","פרשת כי תבוא"],"חברתי":["פתיחת מסלולים, תנך בקיאות, מעוף ט","מבחני מיפוי אנגלית ז'","","ביקור פיקוח","","",""],"אחר":["","","","גיחה יא","גיחה יא","",""],"רישום":["","","","השבעה","","",""],"פנימיה":["","פעילות מדריך","","שיחה יניב קנדל הכח לתת","","",""]}},{"month":"ספטמבר 2025 (אלול תשפ\"ה - תשרי תשפ\"ו)","dates":["כ\"א אלול * 14.09","כ\"ב אלול * 15.09","כ\"ג אלול * 16.09","כ\"ד אלול * 17.09","כ\"ה אלול * 18.09","כ\"ו אלול * 19.09","כ\"ז אלול * 20.09"],"categories":{"פדגוגי":["אסיפת הורים כללית","","סמינריון עלייה לשמינית","סמינריון עלייה לשמינית","סמינריון עלייה לשמינית","","פרשת נצבים"],"חברתי":["מבדק עמית ז","","מבדק עמית ז","גיחה י כרמל","גיחה י כרמל","",""],"אחר":["","","","","שיחה לחטיבה ולתיכון","",""],"רישום":["","","","","","",""],"פנימיה":["","בונים עליכם- פעילות פנימייתית","","פעילות מדריך","","שבת פתיחת שנה (1)","שבת פתיחת שנה (1)"]}},{"month":"ספטמבר 2025 (אלול תשפ\"ה - תשרי תשפ\"ו)","dates":["כ\"ח אלול * 21.09","כ\"ט אלול * 22.09","א' תשרי * 23.09","ב' תשרי * 24.09","ג' תשרי * 25.09","ד' תשרי * 26.09","ה' תשרי * 27.09"],"categories":{"פדגוגי":["","ערב ראש השנה - חופשת משה\"ח","ראש השנה - חופשת משה\"ח","ראש השנה - חופשת משה\"ח","צום גדליה - חזרה ללימודים","","פרשת וילך - שבת שובה"],"חברתי":["משחק שכבתי ז'","","","","סיום לימודים חטב 13:30","",""],"אחר":["","","","","תיכון לא לומדים","",""],"רישום":["","","","","","",""],"פנימיה":["","","","","","",""]}},{"month":"אוקטובר 2025 (תשרי - חשוון תשפ\"ו)","dates":["ו' תשרי * 28.09","ז' תשרי * 29.09","ח' תשרי * 30.09","ט' תשרי * 01.10","י' תשרי * 02.10","י\"א תשרי * 03.10","י\"ב תשרי * 04.10"],"categories":{"פדגוגי":["","","","ערב יום כיפור - חופשת משה\"ח","יום כיפור - חופשת משה\"ח","חופשת משה\"ח","פרשת האזינו"],"חברתי":["התוועדות ישיבתית","","התנדבות בניית סוכות","","","",""],"אחר":["","סיור סליחות חט\"ע","","","","",""],"רישום":["","","","","","",""],"פנימיה":["","","","יום כיפור (2)","יום כיפור (2)","",""]}},{"month":"אוקטובר 2025 (תשרי - חשוון תשפ\"ו)","dates":["כ\"ז תשרי * 19.10","כ\"ח תשרי * 20.10","כ\"ט תשרי * 21.10","ל' תשרי * 22.10","א' חשוון * 23.10","ב' חשוון * 24.10","ג' חשוון * 25.10"],"categories":{"פדגוגי":["","","","ראש חודש חשוון","ראש חודש חשוון","","פרשת נח"],"חברתי":["","יום פתיחת תוכנית בר מצווה ז כפר חבד","שלחן ראש חודש","יום פתיחת רואים רחוק שכבה ח","","",""],"אחר":["","","שיחה חטיבה- לגדול יניב קנדל","הרצאת ערב להורי יא","","",""],"רישום":["","","בוחרים ועדות חטיבה","","סביבתי 1","סביבתי 1",""],"פנימיה":["מופע שירים וסיפורים","פעילות מדריך","","השבעה","בוחרים ועד שכבה- תיכון","שבת פתיחת חורף (3)","שבת פתיחת חורף (3)"]}},{"month":"נובמבר 2025 (חשוון - כסלו תשפ\"ו)","dates":["ד' חשוון * 26.10","ה' חשוון * 27.10","ו' חשוון * 28.10","ז' חשוון * 29.10","ח' חשוון * 30.10","ט' חשוון * 31.10","י' חשוון * 01.11"],"categories":{"פדגוגי":["","","השתלמות צוות","","","","פרשת לך לך"],"חברתי":["בדיקת גדילה - ז","בדיקת גדילה - ז, ראיה - ח","","","אבות ובנים שכבה ז","",""],"אחר":["","","","","","",""],"רישום":["","","","","","",""],"פנימיה":["שיחה \"אני שליח\"","","","","","",""]}},{"month":"נובמבר 2025 (חשוון - כסלו תשפ\"ו)","dates":["י\"א חשוון * 02.11","י\"ב חשוון * 03.11","י\"ג חשוון * 04.11","י\"ד חשוון * 05.11","ט\"ו חשוון * 06.11","ט\"ז חשוון * 07.11","י\"ז חשוון * 08.11"],"categories":{"פדגוגי":["","בדיקת ראיה - ח","ערב הכוון הורי שמינית","ערב הכוון שמינית","","","פרשת וירא"],"חברתי":["","","סדנת העצמה חט\"ב","חידון תנ\"ך - שלב בי\"ס","","",""],"יעוץ":["","","","שיחה דור ישרים יב'","יום ישיבות תלא","",""],"רישום":["","","","","","",""],"פנימיה":["","","","האור בקצה המנהרה","","",""]}},{"month":"דצמבר 2025 (כסלו - טבת תשפ\"ו)","dates":["י\"ז כסלו * 07.12","י\"ח כסלו * 08.12","י\"ט כסלו * 09.12","כ' כסלו * 10.12","כ\"א כסלו * 11.12","כ\"ב כסלו * 12.12","כ\"ג כסלו * 13.12"],"categories":{"פדגוגי":["שבוע חזרות","שבוע חזרות","שבוע חזרות + התוועדות","שבוע חזרות + ערב אבות ובנים","שבוע חזרות + מבחן מסכם גמרא","","פרשת וישב"],"חברתי":["יט כסלו","","","","זמר חטיבה","",""],"רישום":["עבודה צמאה שמיניסטים","עבודה צמאה שמיניסטים","פדגוגיות חט\"ב","","","",""],"פנימיה":["","","30 שנה לפטירת הרב נריה זצ\"ל","","","שבת יא-יב (5)","שבת יא-יב (5)"]}},{"month":"דצמבר 2025 (כסלו - טבת תשפ\"ו)","dates":["כ\"ד כסלו * 14.12","כ\"ה כסלו * 15.12","כ\"ו כסלו * 16.12","כ\"ז כסלו * 17.12","כ\"ח כסלו * 18.12","","ל' כסלו * 20.12"],"categories":{"פדגוגי":["ערב חנוכה - נר 1","חנוכה - נר 2","חנוכה - נר 3 - חופשת משה\"ח","חנוכה - נר 4 - חופשת משה\"ח","חנוכה - נר 5 - חופשת משה\"ח","חנוכה - נר 6","חנוכה - נר 7 - ר\"ח טבת - פרשת מקץ"],"חברתי":["פדגוגיות חטע (סיום רבעון א)","תחנות מדליקות - חט\"ב","","","","",""],"פנימיה":["מסיבת חנוכה","","","","","",""]}},{"month":"ינואר 2026 (טבת - שבט תשפ\"ו)","dates":["ח' טבת * 28.12","ט' טבת * 29.12","י' טבת * 30.12","י\"א טבת * 31.12","י\"ב טבת * 01.01","י\"ג טבת * 02.01","י\"ד טבת * 03.01"],"categories":{"פדגוגי":["","התנעת אש התמיד","צום עשרה בטבת","חיסונים ח","סיור תקשורת י\"ב","","פרשת ויחי"],"חברתי":["","שלחן ראש חודש","משקפות בית מקדש חטיבה","חידון תנך חטב בנימין","סיור הסטוריה יא","",""],"רישום":["ערב פתוח תלמידי כיתה ח","","","","","",""],"פנימיה":["אוהבים אתגרים?","","","בגרות מחשבת ישראל - יא","","",""]}},{"month":"ינואר 2026 (טבת - שבט תשפ\"ו)","dates":["כ\"ב טבת * 11.01","כ\"ג טבת * 12.01","כ\"ד טבת * 13.01","כ\"ה טבת * 14.01","כ\"ו טבת * 15.01","כ\"ז טבת * 16.01","כ\"ח טבת * 17.01"],"categories":{"פדגוגי":["שבושים שמינית 2","שבושים שמינית 2","שבושים שמינית 2","","שיחה - י\"ב","","פרשת וארא"],"חברתי":["","","מפגש צוות -השתלמות","","בוקרי כיתה חט\"ב","",""],"יעוץ":["","צו בצוותא - לשכת הגיוס י\"א","","","יום דינמיקה וראיונות 2","",""],"רישום":["יום דינמיקה וראיונות 1","","ערב פתוח להורים רישום כיתה ז'","","","",""],"פנימיה":["התנדבות","","","","בגרות תנך","",""]}},{"month":"פברואר 2026 (שבט - אדר תשפ\"ו)","dates":["כ\"א שבט * 08.02","כ\"ב שבט * 09.02","כ\"ג שבט * 10.02","כ\"ד שבט * 11.02","כ\"ה שבט * 12.02","כ\"ו שבט * 13.02","כ\"ז שבט * 14.02"],"categories":{"פדגוגי":["","","ערב אבות ובנים שכבה י'","","","","פרשת משפטים"],"חברתי":["","מסע שואה תקומה","מסע שואה תקומה","מסע שואה תקומה","מסע שואה תקומה","","שבת שקלים"],"אחר":["סיור חנ\"ם סוף מחצית","","שיחה גוש קטיף לחטיבה","","","",""],"רישום":["","","","","","",""],"פנימיה":["התנדבות","","","","","",""]}},{"month":"מרץ 2026 (אדר - ניסן תשפ\"ו)","dates":["י\"ב אדר * 01.03","י\"ג אדר * 02.03","י\"ד אדר * 03.03","ט\"ו אדר * 04.03","ט\"ז אדר * 05.03","י\"ז אדר * 06.03","י\"ח אדר * 07.03"],"categories":{"פדגוגי":["משמר הדור קיבלוה + אבות ובנים","תענית אסתר (יום לימודים חטב)","פורים - חופשת משה\"ח","שושן פורים - חופשת משה\"ח","חט\"ב לומדת","","פרשת כי תשא"],"חברתי":["מסיבת פורים חטיבה","יום שכולו תורה חטיבה","","","תיכון-יום השלמות","","שבת פרה"],"פנימיה":["","","מסיבת פורים","","","",""]}},{"month":"אפריל 2026 (ניסן - אייר תשפ\"ו)","dates":["כ\"ה ניסן * 12.04","כ\"ו ניסן * 13.04","כ\"ז ניסן * 14.04","כ\"ח ניסן * 15.04","כ\"ט ניסן * 16.04","ל' ניסן * 17.04","א' אייר * 18.04"],"categories":{"פדגוגי":["","חשיפת מגמות שכבה ט'","יום הזיכרון לשואה ולגבורה","אסיפת הורים","","ראש חודש אייר","ראש חודש אייר - פרשת תזריע-מצורע"],"חברתי":["","","טקס יום השואה בהובלת השמינית","חברותות ז-ט","","",""],"פנימיה":["שיחה ליום השואה","","","","","",""]}},{"month":"אפריל 2026 (ניסן - אייר תשפ\"ו)","dates":["ב' אייר * 19.04","ג' אייר * 20.04","ד' אייר * 21.04","ה' אייר * 22.04","ו' אייר * 23.04","ז' אייר * 24.04","ח' אייר * 25.04"],"categories":{"פדגוגי":["","","יום הזיכרון לחללי מערכות ישראל","יום העצמאות - חופשת משה\"ח","חזרה ללימודים","","פרשת אחרי-קדושים"],"חברתי":["שיחה לקראת יום הזיכרון","רצים לזכרם חטיבה","טקס יום הזיכרון","","","",""],"פנימיה":["פאנל גבורה","טקס יישובי","","","","שבת תקומה י-יב (10)","שבת תקומה י-יב (10)"]}},{"month":"מאי 2026 (אייר - סיוון תשפ\"ו)","dates":["כ\"ג אייר * 10.05","כ\"ד אייר * 11.05","כ\"ה אייר * 12.05","כו אייר * 13.05","כ\"ז אייר * 14.05","כ\"ח אייר * 15.05","כ\"ט אייר * 16.05"],"categories":{"פדגוגי":["","","בגרות מתמטיקה","בגרות מתמטיקה","","","פרשת במדבר"],"חברתי":["מסע ז' כרמל","מסע ז' כרמל","מסע ז' כרמל","","ריקודגלים","",""],"פנימיה":["","","","","","",""]}},{"month":"יוני 2026 (סיוון - תמוז תשפ\"ו)","dates":["כ\"ב סיוון * 07.06","כ\"ג סיוון * 08.06","כ\"ד סיוון * 09.06","כ\"ה סיוון * 10.06","כ\"ו סיוון * 11.06","כ\"ז סיוון * 12.06","כ\"ח סיוון * 13.06"],"categories":{"פדגוגי":["סיור מדעי המחשב ט'-י'","בגרות ביולוגיה","","בגרות אזרחות","חברותות ז-ט","","פרשת שלח"],"חברתי":["","גיחה י","גיחה י","צו בצוותא - לשכת הגיוס י\"א","","סיכום תוכנית בר מצוה",""],"אחר":["מסע עלייה לשמינית","מסע עלייה לשמינית","מסע עלייה לשמינית","שיחת הכנה לחופש","","",""],"פנימיה":["","","","","","שבת הורים שמינית","שבת הורים שמינית (14)"]}}];
-
-const EXAMS_DATA = [{"month":"ספטמבר 2025","dates":["י\"ד אלול * 07.09","ט\"ו אלול * 08.09","ט\"ז אלול * 09.09","י\"ז אלול * 10.09","י\"ח אלול * 11.09","י\"ט אלול * 12.09","כ' אלול * 13.09"],"grades":{"שכבת ז":["מבדק עמית ז","מבדק עמית ז","","","","","פרשת כי תבוא"],"שכבת ח":["","","","","","",""],"שכבת ט":["","","מבחני מיפוי אנגלית","","מבחני מיפוי מתמטיקה","",""],"שכבת י":["","","","","","",""],"שכבת י\"א":["","","","","","",""],"שכבת י\"ב":["","","","","","",""]}},{"month":"אוקטובר 2025","dates":["כ\"ז תשרי * 19.10","כ\"ח תשרי * 20.10","כ\"ט תשרי * 21.10","ל' תשרי * 22.10","א' חשוון * 23.10","ב' חשוון * 24.10","ג' חשוון * 25.10"],"grades":{"שכבת ז":["","","מבחן תורה","ראש חודש חשוון","ראש חודש חשוון","","פרשת נח"],"שכבת ח":["","","מבחן תורה","","","",""],"שכבת ט":["מבחן תנ\"ך","","","","","",""],"שכבת י":["","מבחן מחשבת","","מבחן תנ\"ך","","",""],"שכבת י\"א":["","","מבחן היסטוריה","","","",""],"שכבת י\"ב":["מבחן מתמטיקה","","","מבחן אזרחות","","",""]}},{"month":"נובמבר 2025","dates":["י\"א חשוון * 02.11","י\"ב חשוון * 03.11","י\"ג חשוון * 04.11","י\"ד חשוון * 05.11","ט\"ו חשוון * 06.11","ט\"ז חשוון * 07.11","י\"ז חשוון * 08.11"],"grades":{"שכבת ז":["","","","","מבחן היסטוריה","","פרשת וירא"],"שכבת ח":["","","","","מבחן היסטוריה","",""],"שכבת ט":["מבחן אנגלית","","","","מבחן גמרא","",""],"שכבת י":["","מבחן תנ\"ך הגבר","","","מבחן גמרא","",""],"שכבת י\"א":["","","מבחן מגמות","","מבחן גמרא","",""],"שכבת י\"ב":["","מבחן תנ\"ך","","","מבחן גמרא","",""]}},{"month":"דצמבר 2025","dates":["י\"ז כסלו * 07.12","י\"ח כסלו * 08.12","י\"ט כסלו * 09.12","כ' כסלו * 10.12","כ\"א כסלו * 11.12","כ\"ב כסלו * 12.12","כ\"ג כסלו * 13.12"],"grades":{"שכבת ז":["","","מבחן תורה","","מבחן בעברית","","פרשת וישב"],"שכבת ח":["","","","מבחן תורה","","",""],"שכבת ט":["שבוע חזרות","שבוע חזרות","שבוע חזרות","מבחן אנגלית","מבחן גמרא","",""],"שכבת י":["שבוע חזרות","שבוע חזרות","שבוע חזרות","שבוע חזרות","מבחן גמרא","",""],"שכבת י\"א":["שבוע חזרות","שבוע חזרות","שבוע חזרות","שבוע חזרות","מבחן גמרא","",""],"שכבת י\"ב":["שבוע חזרות","שבוע חזרות","","","מבחן גמרא","",""]}},{"month":"ינואר 2026","dates":["כ\"ב טבת * 11.01","כ\"ג טבת * 12.01","כ\"ד טבת * 13.01","כ\"ה טבת * 14.01","כ\"ו טבת * 15.01","כ\"ז טבת * 16.01","כ\"ח טבת * 17.01"],"grades":{"שכבת ז":["","מבחן עברית","","","מבחן היסטוריה","","פרשת וארא"],"שכבת ח":["","מבחן עברית","","","מבחן היסטוריה","",""],"שכבת ט":["מבחן תנ\"ך","","","מבחן עברית","","",""],"שכבת י":["הגשת מאמר טיעון לשון","","","מבחן היסטוריה","","",""],"שכבת י\"א":["מבחן עברית","","מבחן מגמות","","מתכונת מחשבת","",""],"שכבת י\"ב":["שבושים","","","מתכונת אנגלית","הגשת ה\"ח תורת הגמול","",""]}}];
-
-const BAGRUT_DATA = [{"month":"ינואר 2026","dates":["כ\"ט טבת * 18.01","א' שבט * 19.01","ב' שבט * 20.01","ג' שבט * 21.01","ד' שבט * 22.01","ה' שבט * 23.01","ו' שבט * 24.01"],"grades":{"שכבת י\"א":["מתכונת מחשבת","","","","מבחן תנ\"ך","",""],"שכבת י\"ב":["","","בגרות מתמטיקה","בגרות מתמטיקה","יום השלמה ספרות","",""]}},{"month":"פברואר 2026","dates":["כ\"א שבט * 08.02","כ\"ב שבט * 09.02","כ\"ג שבט * 10.02","כ\"ד שבט * 11.02","כ\"ה שבט * 12.02","כ\"ו שבט * 13.02","כ\"ז שבט * 14.02"],"grades":{"שכבת י\"א":["","","","מבחן באנגלית","","",""],"שכבת י\"ב":["","שואה תקומה","","","","",""]}},{"month":"פברואר 2026","dates":["כ\"ח שבט * 15.02","כ\"ט שבט * 16.02","ל' שבט * 17.02","א' אדר * 18.02","ב' אדר * 19.02","ג' אדר * 20.02","ד' אדר * 21.02"],"grades":{"שכבת י\"א":["מבחן במתמטיקה","מבחן אנגלית","","","מבחן גמרא","",""],"שכבת י\"ב":["בגרות באזרחות+מתכונת COBE","יום עיון תקשורת","מבחן גמרא","","הגשה וסיום ספרות","",""]}},{"month":"פברואר 2026","dates":["ה' אדר * 22.02","ו' אדר * 23.02","ז' אדר * 24.02","ח' אדר * 25.02","ט' אדר * 26.02","י' אדר * 27.02","י\"א אדר * 28.02"],"grades":{"שכבת י\"א":["","","","מבחן במגמות","","",""],"שכבת י\"ב":["","","","","בגרות COBE","",""]}},{"month":"מרץ 2026","dates":["י\"ט אדר * 08.03","כ' אדר * 09.03","כ\"א אדר * 10.03","כ\"ב אדר * 11.03","כ\"ג אדר * 12.03","כ\"ד אדר * 13.03","כ\"ה אדר * 14.03"],"grades":{"שכבת י\"א":["מבחן תנך הגבר","","מתכונת 1 עברית","מתכונת 1 באנגלית","","",""],"שכבת י\"ב":["מתכונת תקשורת+ בגרות חנג","","מתכונת 1 במחשבת+ בגרות חנג","מתכונת 1 באנגלית","","",""]}},{"month":"אפריל 2026","dates":["כ\"ה ניסן * 12.04","כ\"ו ניסן * 13.04","כ\"ז ניסן * 14.04","כ\"ח ניסן * 15.04","כ\"ט ניסן * 16.04","ל' ניסן * 17.04","א' אייר * 18.04"],"grades":{"שכבת י\"א":["","מתכונת 1 בתנ\"ך","","אסיפת הורים","מתכונת 1 בתלמוד","",""],"שכבת י\"ב":["מתכונת 1 מתמטיקה","","","מתכונת 1 בתלמוד","בגרות תקשורת","",""]}},{"month":"מאי 2026","dates":["ט' אייר * 26.04","י' אייר * 27.04","י\"א אייר * 28.04","י\"ב אייר * 29.04","י\"ג אייר * 30.04","י\"ד אייר * 01.05","ט\"ו אייר * 02.05"],"grades":{"שכבת י\"א":["מתכונת 2 במתמטיקה","","מתכונת אנגלית","מתכונת 1 מדעי המחשב","","",""],"שכבת י\"ב":["","בגרות מחשבת","","מתכונת 2 במתמטיקה","מתכונת 1 תנך","",""]}},{"month":"מאי 2026","dates":["כ\"ג אייר * 10.05","כ\"ד אייר * 11.05","כ\"ה אייר * 12.05","כו אייר * 13.05","כ\"ז אייר * 14.05","כ\"ח אייר * 15.05","כ\"ט אייר * 16.05"],"grades":{"שכבת י\"א":["מתכונת 2 תנ\"ך","","","","","",""],"שכבת י\"ב":["מתכונת 2 בתנ\"ך","","בגרות במתמטיקה","בגרות במתמטיקה","","",""]}},{"month":"מאי 2026","dates":["א' סיוון * 17.05","ב' סיוון * 18.05","ג' סיוון * 19.05","ד' סיוון * 20.05","ה' סיוון * 21.05","ו' סיוון * 22.05","ז' סיוון * 23.05"],"grades":{"שכבת י\"א":["מתכונת 2 מדעי המחשב","בגרות E,A","בגרות אנגלית C,G","מבחן ל\"ב נתיבות","","",""],"שכבת י\"ב":["","בגרות E,A","בגרות אנגלית C,G","מבחן לב נתיבות","","",""]}},{"month":"יוני 2026","dates":["ח' סיוון * 24.05","ט' סיוון * 25.05","י' סיוון * 26.05","י\"א סיוון * 27.05","י\"ב סיוון * 28.05","י\"ג סיוון * 29.05","י\"ד סיוון * 30.05"],"grades":{"שכבת י\"א":["","","","","","",""],"שכבת י\"ב":["","בגרות תלמוד","בגרות תקשורת מעשית","","בגרות תנ\"ך","",""]}},{"month":"יוני 2026","dates":["כ\"ב סיוון * 07.06","כ\"ג סיוון * 08.06","כ\"ד סיוון * 09.06","כ\"ה סיוון * 10.06","כ\"ו סיוון * 11.06","כ\"ז סיוון * 12.06","כ\"ח סיוון * 13.06"],"grades":{"שכבת י\"א":["מסע עליה לשמינית","מסע עליה לשמינית","מסע עליה לשמינית","","","",""],"שכבת י\"ב":["","","","","","",""]}}];
-
-// ═══════════════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════════════
-let isEditor = false;
-let currentTab = 'loz';
-let edits = {};
-try { edits = JSON.parse(localStorage.getItem('sched_edits_v2') || '{}'); } catch(e){}
-
-// Which layers are ON
-const SCHEDULE_LAYERS = ['פדגוגי','חברתי','פנימיה','רישום','יעוץ','אחר'];
-const GRADE_LAYERS    = ['שכבת ז','שכבת ח','שכבת ט','שכבת י','שכבת י"א','שכבת י"ב'];
-let activeLayers = new Set([...SCHEDULE_LAYERS, ...GRADE_LAYERS]);
-
-// Pending edit modal context
-let pendingEdit = null;
-
+const CAT_ORDER = ['מעגל השנה','פדגוגי','חברתי','רישום','פנימיה','אחר'];
+const GRADE_LAYERS = ['שכבת ז','שכבת ח','שכבת ט','שכבת י','שכבת י"א','שכבת י"ב'];
+const CAT_CSS = {'מעגל השנה':'chag','פדגוגי':'pad','חברתי':'hev','פנימיה':'pni','רישום':'ris','אחר':'ach'};
+const GRADE_CSS = {'שכבת ז':'gz','שכבת ח':'gh','שכבת ט':'gt','שכבת י':'gy','שכבת י"א':'gya','שכבת י"ב':'gyb'};
+const GRADE_LBL = {'שכבת ז':'ז','שכבת ח':'ח','שכבת ט':'ט','שכבת י':'י','שכבת י"א':'יא','שכבת י"ב':'יב'};
 const DAY_NAMES = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
 
-// ═══════════════════════════════════════════════════════
-// DATE UTILITIES
-// ═══════════════════════════════════════════════════════
-function parseSecular(dateStr) {
-  if (!dateStr) return null;
-  const m = dateStr.match(/(\d{2})\.(\d{2})/);
-  if (!m) return null;
-  const year = parseInt(m[2]) <= 7 ? 2026 : 2025;
-  return new Date(year, parseInt(m[2]) - 1, parseInt(m[1]));
+const SCHEDULE_DATA = [{"month":"אוגוסט 2025 (אב - אלול תשפ\"ה)","dates":["ב' אב * 27.07","ג' אב * 28.07","ד' אב * 29.07","ה' אב * 30.07","ו' אב * 31.07","ז' אב * 01.08","ח' אב * 02.08"],"categories":{"מעגל השנה":["","","","","","",""],"פדגוגי":["","","","","","","פרשת דברים"],"חברתי":["","","","","","",""],"רישום":["","","","","","",""],"פנימיה":["","","","","","",""],"אחר":["","","","","","",""]}},{"month":"אוגוסט 2025 (אב - אלול תשפ\"ה)","dates":["ט' אב * 03.08","י' אב * 04.08","י\"א אב * 05.08","י\"ב אב * 06.08","י\"ג אב * 07.08","י\"ד אב * 08.08","ט\"ו אב * 09.08"],"categories":{"מעגל השנה":["תשעה באב","","","","","",""],"פדגוגי":["","","","","","","פרשת ואתחנן"],"חברתי":["","","","","","",""],"רישום":["","","","","","",""],"פנימיה":["","","","","","",""],"אחר":["","","","","","",""]}},{"month":"ספטמבר 2025 (אלול תשפ\"ה - תשרי תשפ\"ו)","dates":["ז' אלול * 31.08","ח' אלול * 01.09","ט' אלול * 02.09","י' אלול * 03.09","י\"א אלול * 04.09","י\"ב אלול * 05.09","י\"ג אלול * 06.09"],"categories":{"מעגל השנה":["","","","","","",""],"פדגוגי":["","פתיחת שנת הלימודים","ישיבות עדכון חט\"ב 14:30","","מבחני מיפוי מתמטיקה ט'","","פרשת כי תצא"],"חברתי":["","","","","O.D.T חט\"ב","",""],"רישום":["","","","","","",""],"פנימיה":["","כינוס פנימיה+ פעילות הכרות מדריך","","פותחים שנה- פנימיה +נקיונות","","",""],"אחר":["","","","","ישיבות עדכון חט\"ע","",""]}},{"month":"ספטמבר 2025 (אלול תשפ\"ה - תשרי תשפ\"ו)","dates":["כ\"א אלול * 14.09","כ\"ב אלול * 15.09","כ\"ג אלול * 16.09","כ\"ד אלול * 17.09","כ\"ה אלול * 18.09","כ\"ו אלול * 19.09","כ\"ז אלול * 20.09"],"categories":{"מעגל השנה":["","","","","","",""],"פדגוגי":["אסיפת הורים כללית","","סמינריון עלייה לשמינית","סמינריון עלייה לשמינית","סמינריון עלייה לשמינית","","פרשת נצבים"],"חברתי":["מבדק עמית ז","","מבדק עמית ז","גיחה י כרמל","גיחה י כרמל","",""],"רישום":["","","","","","",""],"פנימיה":["","בונים עליכם- פעילות פנימייתית","","פעילות מדריך","","שבת פתיחת שנה (1)","שבת פתיחת שנה (1)"],"אחר":["","","","","שיחה לחטיבה ולתיכון","",""]}},{"month":"ספטמבר 2025 (אלול תשפ\"ה - תשרי תשפ\"ו)","dates":["כ\"ח אלול * 21.09","כ\"ט אלול * 22.09","א' תשרי * 23.09","ב' תשרי * 24.09","ג' תשרי * 25.09","ד' תשרי * 26.09","ה' תשרי * 27.09"],"categories":{"מעגל השנה":["","ערב ראש השנה","ראש השנה","ראש השנה","צום גדליה","","שבת שובה"],"פדגוגי":["","חופשת משה\"ח","חופשת משה\"ח","חופשת משה\"ח","חזרה ללימודים","","פרשת וילך"],"חברתי":["משחק שכבתי ז'","","","","סיום לימודים חטב 13:30","",""],"רישום":["","","","","","",""],"פנימיה":["","","","","","",""],"אחר":["","","","","תיכון לא לומדים","",""]}},{"month":"אוקטובר 2025 (תשרי - חשוון תשפ\"ו)","dates":["ו' תשרי * 28.09","ז' תשרי * 29.09","ח' תשרי * 30.09","ט' תשרי * 01.10","י' תשרי * 02.10","י\"א תשרי * 03.10","י\"ב תשרי * 04.10"],"categories":{"מעגל השנה":["","","","ערב יום כיפור","יום כיפור","",""],"פדגוגי":["","","","חופשת משה\"ח","חופשת משה\"ח","חופשת משה\"ח","פרשת האזינו"],"חברתי":["התוועדות ישיבתית","","התנדבות בניית סוכות","","","",""],"רישום":["","","","","","",""],"פנימיה":["","","","יום כיפור (2)","יום כיפור (2)","",""],"אחר":["","סיור סליחות חט\"ע","","","","",""]}},{"month":"אוקטובר 2025 (תשרי - חשוון תשפ\"ו)","dates":["י\"ג תשרי * 05.10","י\"ד תשרי * 06.10","ט\"ו תשרי * 07.10","ט\"ז תשרי * 08.10","י\"ז תשרי * 09.10","י\"ח תשרי * 10.10","י\"ט תשרי * 11.10"],"categories":{"מעגל השנה":["","ערב סוכות","סוכות א'","סוכות ב' חוה\"מ","סוכות ג' חוה\"מ","סוכות ד' חוה\"מ","סוכות ה' חוה\"מ"],"פדגוגי":["חופשת משה\"ח","חופשת משה\"ח","חופשת משה\"ח","חופשת משה\"ח","חופשת משה\"ח","חופשת משה\"ח","חופשת משה\"ח"],"חברתי":["","","","","","",""],"רישום":["","","","","","",""],"פנימיה":["","","","","","",""],"אחר":["","","","","","",""]}},{"month":"אוקטובר 2025 (תשרי - חשוון תשפ\"ו)","dates":["כ' תשרי * 12.10","כ\"א תשרי * 13.10","כ\"ב תשרי * 14.10","כ\"ג תשרי * 15.10","כ\"ד תשרי * 16.10","כ\"ה תשרי * 17.10","כ\"ו תשרי * 18.10"],"categories":{"מעגל השנה":["סוכות ו' חוה\"מ","הושענא רבה","שמיני עצרת","אסרו חג","","",""],"פדגוגי":["חופשת משה\"ח","חופשת משה\"ח","חופשת משה\"ח","כולם לומדים","סיור תקשורת באוניברסיטת אריאל","","פרשת בראשית"],"חברתי":["","","","","","",""],"רישום":["","","","","","",""],"פנימיה":["","","","התנדבות","","",""],"אחר":["","","","","יום זיכרון חרבות ברזל","",""]}},{"month":"אוקטובר 2025 (תשרי - חשוון תשפ\"ו)","dates":["כ\"ז תשרי * 19.10","כ\"ח תשרי * 20.10","כ\"ט תשרי * 21.10","ל' תשרי * 22.10","א' חשוון * 23.10","ב' חשוון * 24.10","ג' חשוון * 25.10"],"categories":{"מעגל השנה":["","","","ראש חודש חשוון","ראש חודש חשוון","",""],"פדגוגי":["","","","","","","פרשת נח"],"חברתי":["","יום פתיחת תוכנית בר מצווה ז","שלחן ראש חודש","יום פתיחת רואים רחוק שכבה ח","","",""],"רישום":["","","בוחרים ועדות חטיבה","","סביבתי 1","סביבתי 1",""],"פנימיה":["מופע שירים וסיפורים","פעילות מדריך","","השבעה","בוחרים ועד שכבה תיכון","שבת פתיחת חורף (3)","שבת פתיחת חורף (3)"],"אחר":["","","שיחה חטיבה- לגדול","הרצאת ערב להורי יא","","",""]}},{"month":"נובמבר 2025 (חשוון - כסלו תשפ\"ו)","dates":["ד' חשוון * 26.10","ה' חשוון * 27.10","ו' חשוון * 28.10","ז' חשוון * 29.10","ח' חשוון * 30.10","ט' חשוון * 31.10","י' חשוון * 01.11"],"categories":{"מעגל השנה":["","","","","","",""],"פדגוגי":["","","השתלמות צוות","","","","פרשת לך לך"],"חברתי":["בדיקת גדילה - ז","בדיקת גדילה - ז ראיה - ח","","","אבות ובנים שכבה ז","",""],"רישום":["","","","","","",""],"פנימיה":["שיחה \"אני שליח\"","","","","","",""],"אחר":["","","","","","",""]}},{"month":"נובמבר 2025 (חשוון - כסלו תשפ\"ו)","dates":["י\"א חשוון * 02.11","י\"ב חשוון * 03.11","י\"ג חשוון * 04.11","י\"ד חשוון * 05.11","ט\"ו חשוון * 06.11","ט\"ז חשוון * 07.11","י\"ז חשוון * 08.11"],"categories":{"מעגל השנה":["","","","","","",""],"פדגוגי":["","בדיקת ראיה - ח","ערב הכוון הורי שמינית","ערב הכוון שמינית","","","פרשת וירא"],"חברתי":["","","סדנת העצמה חט\"ב","חידון תנ\"ך - שלב בי\"ס","","",""],"רישום":["","","","","","",""],"פנימיה":["","","","האור בקצה המנהרה","","",""],"אחר":["","","","שיחה דור ישרים יב'","יום ישיבות תלא","",""]}},{"month":"דצמבר 2025 (כסלו - טבת תשפ\"ו)","dates":["י\"ז כסלו * 07.12","י\"ח כסלו * 08.12","י\"ט כסלו * 09.12","כ' כסלו * 10.12","כ\"א כסלו * 11.12","כ\"ב כסלו * 12.12","כ\"ג כסלו * 13.12"],"categories":{"מעגל השנה":["","","","","","",""],"פדגוגי":["שבוע חזרות","שבוע חזרות","שבוע חזרות + התוועדות","שבוע חזרות + ערב אבות ובנים","שבוע חזרות + מבחן מסכם גמרא","","פרשת וישב"],"חברתי":["יט כסלו","","","","זמר חטיבה","",""],"רישום":["עבודה צמאה שמיניסטים","עבודה צמאה שמיניסטים","פדגוגיות חט\"ב","","","",""],"פנימיה":["","","30 שנה לפטירת הרב נריה זצ\"ל","","","שבת יא-יב (5)","שבת יא-יב (5)"],"אחר":["","","","","","",""]}},{"month":"דצמבר 2025 (כסלו - טבת תשפ\"ו)","dates":["כ\"ד כסלו * 14.12","כ\"ה כסלו * 15.12","כ\"ו כסלו * 16.12","כ\"ז כסלו * 17.12","כ\"ח כסלו * 18.12","","ל' כסלו * 20.12"],"categories":{"מעגל השנה":["ערב חנוכה","חנוכה - נר 2","חנוכה - נר 3","חנוכה - נר 4","חנוכה - נר 5","חנוכה - נר 6","חנוכה - נר 7 - ר\"ח טבת"],"פדגוגי":["","","חופשת משה\"ח","חופשת משה\"ח","חופשת משה\"ח","חופשת משה\"ח","פרשת מקץ"],"חברתי":["פדגוגיות חטע (סיום רבעון א)","תחנות מדליקות - חט\"ב","","","","",""],"רישום":["","","","","","",""],"פנימיה":["מסיבת חנוכה","","","","","",""],"אחר":["","","","","","",""]}},{"month":"דצמבר 2025 (כסלו - טבת תשפ\"ו)","dates":["א' טבת * 21.12","ב' טבת * 22.12","ג' טבת * 23.12","ד' טבת * 24.12","ה' טבת * 25.12","ו' טבת * 26.12","ז' טבת * 27.12"],"categories":{"מעגל השנה":["חנוכה - נר 8","זאת חנוכה","","","","",""],"פדגוגי":["חופשת משה\"ח","חופשת משה\"ח","חזרה ללימודים 10:30","","אסיפת הורים","","פרשת ויגש"],"חברתי":["","","","","שיחה לזכרו של הרב חיים דרוקמן","",""],"רישום":["","","סביבתי1","סביבתי1","","",""],"פנימיה":["","","","","","",""],"אחר":["","","","","חיסונים ח","",""]}},{"month":"ינואר 2026 (טבת - שבט תשפ\"ו)","dates":["ח' טבת * 28.12","ט' טבת * 29.12","י' טבת * 30.12","י\"א טבת * 31.12","י\"ב טבת * 01.01","י\"ג טבת * 02.01","י\"ד טבת * 03.01"],"categories":{"מעגל השנה":["","","צום עשרה בטבת","","","",""],"פדגוגי":["","התנעת אש התמיד","","חיסונים ח","סיור תקשורת י\"ב","","פרשת ויחי"],"חברתי":["","שלחן ראש חודש","משקפות בית מקדש חטיבה","חידון תנך חטב בנימין","סיור הסטוריה יא","",""],"רישום":["ערב פתוח תלמידי כיתה ח","","","","","",""],"פנימיה":["אוהבים אתגרים?","","","בגרות מחשבת ישראל - יא","","",""],"אחר":["חיסונים ח","חיסונים ח","מד\"א - שכבה י'","מד\"א - שכבה י'","","",""]}},{"month":"ינואר 2026 (טבת - שבט תשפ\"ו)","dates":["כ\"ב טבת * 11.01","כ\"ג טבת * 12.01","כ\"ד טבת * 13.01","כ\"ה טבת * 14.01","כ\"ו טבת * 15.01","כ\"ז טבת * 16.01","כ\"ח טבת * 17.01"],"categories":{"מעגל השנה":["","","","","","",""],"פדגוגי":["שבושים שמינית 2","שבושים שמינית 2","שבושים שמינית 2","","שיחה - י\"ב","","פרשת וארא"],"חברתי":["","","מפגש צוות -השתלמות","","בוקרי כיתה חט\"ב","",""],"רישום":["יום דינמיקה וראיונות 1","","ערב פתוח להורים רישום כיתה ז'","","","",""],"פנימיה":["התנדבות","","","","בגרות תנך","",""],"אחר":["","צו בצוותא - לשכת הגיוס י\"א","","","יום דינמיקה וראיונות 2","",""]}},{"month":"פברואר 2026 (שבט - אדר תשפ\"ו)","dates":["י\"ד שבט * 01.02","ט\"ו שבט * 02.02","ט\"ז שבט * 03.02","י\"ז שבט * 04.02","י\"ח שבט * 05.02","י\"ט שבט * 06.02","כ' שבט * 07.02"],"categories":{"מעגל השנה":["","ט\"ו בשבט","","","","",""],"פדגוגי":["שבוע מדעי החלל חט\"ב","נטיעות ט\"ו בשבט","סיור מלכישוע יא יב","סיור תנ\"ך י 4","","","פרשת יתרו"],"חברתי":["","","","","","",""],"רישום":["","","","","","ט++יב עופרה","ט++יב עופרה"],"פנימיה":["סדר טו בשבט","","","","","שבת ישיבה י-יא+טרמ\"חים (7)","שבת ישיבה י-יא+טרמ\"חים (7)"],"אחר":["","","","","","",""]}},{"month":"פברואר 2026 (שבט - אדר תשפ\"ו)","dates":["כ\"א שבט * 08.02","כ\"ב שבט * 09.02","כ\"ג שבט * 10.02","כ\"ד שבט * 11.02","כ\"ה שבט * 12.02","כ\"ו שבט * 13.02","כ\"ז שבט * 14.02"],"categories":{"מעגל השנה":["","","","","","","שבת שקלים"],"פדגוגי":["","","ערב אבות ובנים שכבה י'","","","","פרשת משפטים"],"חברתי":["","מסע שואה תקומה","מסע שואה תקומה","מסע שואה תקומה","מסע שואה תקומה","",""],"רישום":["","","","","","",""],"פנימיה":["התנדבות","","","","","",""],"אחר":["סיור חנ\"ם סוף מחצית","","שיחה גוש קטיף לחטיבה","","","",""]}},{"month":"פברואר 2026 (שבט - אדר תשפ\"ו)","dates":["כ\"ח שבט * 15.02","כ\"ט שבט * 16.02","ל' שבט * 17.02","א' אדר * 18.02","ב' אדר * 19.02","ג' אדר * 20.02","ד' אדר * 21.02"],"categories":{"מעגל השנה":["","","ראש חודש אדר","ראש חודש אדר","","",""],"פדגוגי":["חידון תנך - שלב ג","חברותות ז-ט","","","","","פרשת תרומה"],"חברתי":["יום השלמת מבחנים","תרגיל רעידת אדמה","מסע שכבה ח","מסע שכבה ח","מסע שכבה ח","",""],"רישום":["","","מסיבת ר\"ח ישיבתי","התנדבות ט- אריאל","","",""],"פנימיה":["פעילות מדריכים","","","גיחה - ז?","גיחה - ז?","",""],"אחר":["","","מכינה י\"ב 7","","","",""]}},{"month":"מרץ 2026 (אדר - ניסן תשפ\"ו)","dates":["י\"ב אדר * 01.03","י\"ג אדר * 02.03","י\"ד אדר * 03.03","ט\"ו אדר * 04.03","ט\"ז אדר * 05.03","י\"ז אדר * 06.03","י\"ח אדר * 07.03"],"categories":{"מעגל השנה":["","תענית אסתר","פורים","שושן פורים","","","שבת פרה"],"פדגוגי":["משמר הדור קיבלוה + אבות ובנים","יום לימודים חטב","חופשת משה\"ח","חופשת משה\"ח","חט\"ב לומדת","","פרשת כי תשא"],"חברתי":["מסיבת פורים חטיבה","יום שכולו תורה חטיבה","","","תיכון-יום השלמות","",""],"רישום":["משחק מורים תלמידים","","","","ביריה - ח","",""],"פנימיה":["","","מסיבת פורים","","","",""],"אחר":["","","","","","",""]}},{"month":"אפריל 2026 (ניסן - אייר תשפ\"ו)","dates":["כ\"ה ניסן * 12.04","כ\"ו ניסן * 13.04","כ\"ז ניסן * 14.04","כ\"ח ניסן * 15.04","כ\"ט ניסן * 16.04","ל' ניסן * 17.04","א' אייר * 18.04"],"categories":{"מעגל השנה":["אסרו חג פסח","","יום השואה","","","ראש חודש אייר","ראש חודש אייר"],"פדגוגי":["","חשיפת מגמות שכבה ט'","","אסיפת הורים","","","פרשת תזריע-מצורע"],"חברתי":["","","טקס יום השואה בהובלת השמינית","חברותות ז-ט","","",""],"רישום":["","","","","","",""],"פנימיה":["שיחה ליום השואה","","","","","",""],"אחר":["שלחן ראש חודש","","שיחה לשכבה ז","","חיסון ח'","",""]}},{"month":"אפריל 2026 (ניסן - אייר תשפ\"ו)","dates":["ב' אייר * 19.04","ג' אייר * 20.04","ד' אייר * 21.04","ה' אייר * 22.04","ו' אייר * 23.04","ז' אייר * 24.04","ח' אייר * 25.04"],"categories":{"מעגל השנה":["","","יום הזיכרון","יום העצמאות","","",""],"פדגוגי":["","","","חופשת משה\"ח","חזרה ללימודים","","פרשת אחרי-קדושים"],"חברתי":["שיחה לקראת יום הזיכרון","רצים לזכרם חטיבה","טקס יום הזיכרון","","","",""],"רישום":["","","","","","",""],"פנימיה":["פאנל גבורה","טקס יישובי","","","","שבת תקומה י-יב (10)","שבת תקומה י-יב (10)"],"אחר":["","","","","חיסון ח'","",""]}},{"month":"מאי 2026 (אייר - סיוון תשפ\"ו)","dates":["ט' אייר * 26.04","י' אייר * 27.04","י\"א אייר * 28.04","י\"ב אייר * 29.04","י\"ג אייר * 30.04","י\"ד אייר * 01.05","ט\"ו אייר * 02.05"],"categories":{"מעגל השנה":["","","","","","פסח שני",""],"פדגוגי":["יום השלמת מבחנים","","בגרות מחשבת","","בגרות תנ\"ך הגבר בקיאות","","פרשת אמור"],"חברתי":["","","","יום שדה ט2","יום שדה י2","",""],"רישום":["","","מסע ח","מסע ח","מסע ח","",""],"פנימיה":["","","","","","",""],"אחר":["חיסון ח'","חיסון ח'","מכינה י\"ב 8","","","",""]}},{"month":"מאי 2026 (אייר - סיוון תשפ\"ו)","dates":["כ\"ג אייר * 10.05","כ\"ד אייר * 11.05","כ\"ה אייר * 12.05","כו אייר * 13.05","כ\"ז אייר * 14.05","כ\"ח אייר * 15.05","כ\"ט אייר * 16.05"],"categories":{"מעגל השנה":["","","","","יום ירושלים","",""],"פדגוגי":["","","בגרות מתמטיקה","בגרות מתמטיקה","","","פרשת במדבר"],"חברתי":["מסע ז' כרמל","מסע ז' כרמל","מסע ז' כרמל","","ריקודגלים","",""],"רישום":["","","","","","",""],"פנימיה":["","","","","","",""],"אחר":["","","","","","",""]}},{"month":"מאי 2026 (אייר - סיוון תשפ\"ו)","dates":["א' סיוון * 17.05","ב' סיוון * 18.05","ג' סיוון * 19.05","ד' סיוון * 20.05","ה' סיוון * 21.05","ו' סיוון * 22.05","ז' סיוון * 23.05"],"categories":{"מעגל השנה":["","","","","ערב שבועות","שבועות א'","שבועות ב'"],"פדגוגי":["שבוע שטייגען","שבוע שטייגען","שבוע שטייגען","שבוע שטייגען","חופשת משה\"ח","חופשת משה\"ח","פרשת נשא - חופשת משה\"ח"],"חברתי":["יום השלמת מבחנים","חברותות ז-ט","הכנה לשבועות יניב קנדל","בריכה תיכון","לב נתיבות","",""],"רישום":["","","","","","",""],"פנימיה":["","","","","שבועות (12)","שבועות (12)","שבת (13)"],"אחר":["","","","","","",""]}},{"month":"יוני 2026 (סיוון - תמוז תשפ\"ו)","dates":["כ\"ב סיוון * 07.06","כ\"ג סיוון * 08.06","כ\"ד סיוון * 09.06","כ\"ה סיוון * 10.06","כ\"ו סיוון * 11.06","כ\"ז סיוון * 12.06","כ\"ח סיוון * 13.06"],"categories":{"מעגל השנה":["","","","","","",""],"פדגוגי":["סיור מדעי המחשב ט'-י'","בגרות ביולוגיה","","בגרות אזרחות","חברותות ז-ט","","פרשת שלח"],"חברתי":["","גיחה י","גיחה י","צו בצוותא לשכת הגיוס יא","","סיכום תוכנית בר מצוה",""],"רישום":["","","","","","",""],"פנימיה":["","","","","","שבת הורים שמינית","שבת הורים שמינית (14)"],"אחר":["מסע עלייה לשמינית","מסע עלייה לשמינית","מסע עלייה לשמינית","שיחת הכנה לחופש","","",""]}}];
+
+const EXAMS_DATA = [{"month":"ספטמבר 2025","dates":["י\"ד אלול * 07.09","ט\"ו אלול * 08.09","ט\"ז אלול * 09.09","י\"ז אלול * 10.09","י\"ח אלול * 11.09","י\"ט אלול * 12.09","כ' אלול * 13.09"],"grades":{"שכבת ז":["מבדק עמית ז","מבדק עמית ז","","","","","פרשת כי תבוא"],"שכבת ח":["","","","","","",""],"שכבת ט":["","","מבחני מיפוי אנגלית","","מבחני מיפוי מתמטיקה","",""],"שכבת י":["","","","","","",""],"שכבת י\"א":["","","","","","",""],"שכבת י\"ב":["","","","","","",""]}},{"month":"אוקטובר 2025","dates":["כ\"ז תשרי * 19.10","כ\"ח תשרי * 20.10","כ\"ט תשרי * 21.10","ל' תשרי * 22.10","א' חשוון * 23.10","ב' חשוון * 24.10","ג' חשוון * 25.10"],"grades":{"שכבת ז":["","","מבחן תורה","","","","פרשת נח"],"שכבת ח":["","","מבחן תורה","","","",""],"שכבת ט":["מבחן תנ\"ך","","","","","",""],"שכבת י":["","מבחן מחשבת","","מבחן תנ\"ך","","",""],"שכבת י\"א":["","","מבחן היסטוריה","","","",""],"שכבת י\"ב":["מבחן מתמטיקה","","","מבחן אזרחות","","",""]}},{"month":"נובמבר 2025","dates":["י\"א חשוון * 02.11","י\"ב חשוון * 03.11","י\"ג חשוון * 04.11","י\"ד חשוון * 05.11","ט\"ו חשוון * 06.11","ט\"ז חשוון * 07.11","י\"ז חשוון * 08.11"],"grades":{"שכבת ז":["","","","","מבחן היסטוריה","","פרשת וירא"],"שכבת ח":["","","","","מבחן היסטוריה","",""],"שכבת ט":["מבחן אנגלית","","","","מבחן גמרא","",""],"שכבת י":["","מבחן תנ\"ך הגבר","","","מבחן גמרא","",""],"שכבת י\"א":["","","מבחן מגמות","","מבחן גמרא","",""],"שכבת י\"ב":["","מבחן תנ\"ך","","","מבחן גמרא","",""]}},{"month":"דצמבר 2025","dates":["י\"ז כסלו * 07.12","י\"ח כסלו * 08.12","י\"ט כסלו * 09.12","כ' כסלו * 10.12","כ\"א כסלו * 11.12","כ\"ב כסלו * 12.12","כ\"ג כסלו * 13.12"],"grades":{"שכבת ז":["","","מבחן תורה","","מבחן בעברית","","פרשת וישב"],"שכבת ח":["","","","מבחן תורה","","",""],"שכבת ט":["שבוע חזרות","שבוע חזרות","שבוע חזרות","מבחן אנגלית","מבחן גמרא","",""],"שכבת י":["שבוע חזרות","שבוע חזרות","שבוע חזרות","שבוע חזרות","מבחן גמרא","",""],"שכבת י\"א":["שבוע חזרות","שבוע חזרות","שבוע חזרות","שבוע חזרות","מבחן גמרא","",""],"שכבת י\"ב":["שבוע חזרות","שבוע חזרות","","","מבחן גמרא","",""]}},{"month":"ינואר 2026","dates":["כ\"ב טבת * 11.01","כ\"ג טבת * 12.01","כ\"ד טבת * 13.01","כ\"ה טבת * 14.01","כ\"ו טבת * 15.01","כ\"ז טבת * 16.01","כ\"ח טבת * 17.01"],"grades":{"שכבת ז":["","מבחן עברית","","","מבחן היסטוריה","","פרשת וארא"],"שכבת ח":["","מבחן עברית","","","מבחן היסטוריה","",""],"שכבת ט":["מבחן תנ\"ך","","","מבחן עברית","","",""],"שכבת י":["הגשת מאמר טיעון לשון","","","מבחן היסטוריה","","",""],"שכבת י\"א":["מבחן עברית","","מבחן מגמות","","מתכונת מחשבת","",""],"שכבת י\"ב":["שבושים","","","מתכונת אנגלית","הגשת ה\"ח תורת הגמול","",""]}}];
+
+const BAGRUT_DATA = [{"month":"ינואר 2026","dates":["כ\"ט טבת * 18.01","א' שבט * 19.01","ב' שבט * 20.01","ג' שבט * 21.01","ד' שבט * 22.01","ה' שבט * 23.01","ו' שבט * 24.01"],"grades":{"שכבת י\"א":["מתכונת מחשבת","","","","מבחן תנ\"ך","",""],"שכבת י\"ב":["","","בגרות מתמטיקה","בגרות מתמטיקה","יום השלמה ספרות","",""]}},{"month":"פברואר 2026","dates":["כ\"ח שבט * 15.02","כ\"ט שבט * 16.02","ל' שבט * 17.02","א' אדר * 18.02","ב' אדר * 19.02","ג' אדר * 20.02","ד' אדר * 21.02"],"grades":{"שכבת י\"א":["מבחן במתמטיקה","מבחן אנגלית","","","מבחן גמרא","",""],"שכבת י\"ב":["בגרות באזרחות+מתכונת COBE","יום עיון תקשורת","מבחן גמרא","","הגשה וסיום ספרות","",""]}},{"month":"מרץ 2026","dates":["י\"ט אדר * 08.03","כ' אדר * 09.03","כ\"א אדר * 10.03","כ\"ב אדר * 11.03","כ\"ג אדר * 12.03","כ\"ד אדר * 13.03","כ\"ה אדר * 14.03"],"grades":{"שכבת י\"א":["מבחן תנך הגבר","","מתכונת 1 עברית","מתכונת 1 באנגלית","","",""],"שכבת י\"ב":["מתכונת תקשורת+ בגרות חנג","","מתכונת 1 במחשבת","מתכונת 1 באנגלית","","",""]}},{"month":"אפריל 2026","dates":["כ\"ה ניסן * 12.04","כ\"ו ניסן * 13.04","כ\"ז ניסן * 14.04","כ\"ח ניסן * 15.04","כ\"ט ניסן * 16.04","ל' ניסן * 17.04","א' אייר * 18.04"],"grades":{"שכבת י\"א":["","מתכונת 1 בתנ\"ך","","אסיפת הורים","מתכונת 1 בתלמוד","",""],"שכבת י\"ב":["מתכונת 1 מתמטיקה","","","מתכונת 1 בתלמוד","בגרות תקשורת","",""]}},{"month":"מאי 2026","dates":["ט' אייר * 26.04","י' אייר * 27.04","י\"א אייר * 28.04","י\"ב אייר * 29.04","י\"ג אייר * 30.04","י\"ד אייר * 01.05","ט\"ו אייר * 02.05"],"grades":{"שכבת י\"א":["מתכונת 2 במתמטיקה","","מתכונת אנגלית","מתכונת 1 מדעי המחשב","","",""],"שכבת י\"ב":["","בגרות מחשבת","","מתכונת 2 במתמטיקה","מתכונת 1 תנך","",""]}},{"month":"מאי 2026","dates":["א' סיוון * 17.05","ב' סיוון * 18.05","ג' סיוון * 19.05","ד' סיוון * 20.05","ה' סיוון * 21.05","ו' סיוון * 22.05","ז' סיוון * 23.05"],"grades":{"שכבת י\"א":["מתכונת 2 מדעי המחשב","בגרות E,A","בגרות אנגלית C,G","מבחן ל\"ב נתיבות","","",""],"שכבת י\"ב":["","בגרות E,A","בגרות אנגלית C,G","מבחן לב נתיבות","","",""]}},{"month":"יוני 2026","dates":["ח' סיוון * 24.05","ט' סיוון * 25.05","י' סיוון * 26.05","י\"א סיוון * 27.05","י\"ב סיוון * 28.05","י\"ג סיוון * 29.05","י\"ד סיוון * 30.05"],"grades":{"שכבת י\"א":["","","","","","",""],"שכבת י\"ב":["","בגרות תלמוד","בגרות תקשורת מעשית","","בגרות תנ\"ך","",""]}}];
+
+// ═══ STATE ═══
+let isEditor=false, currentTab='loz', edits={}, activeLayers=new Set([...CAT_ORDER,...GRADE_LAYERS]), pendingEdit=null;
+try { edits=JSON.parse(localStorage.getItem('sched_v3')||'{}'); } catch(e){}
+
+// ═══ DATE ═══
+function parseDate(s){if(!s)return null;const m=s.match(/(\d{2})\.(\d{2})/);if(!m)return null;const mo=parseInt(m[2]),d=parseInt(m[1]);return new Date(mo<=7?2026:2025,mo-1,d);}
+function isToday(s){const d=parseDate(s);if(!d)return false;const t=new Date();return d.getFullYear()===t.getFullYear()&&d.getMonth()===t.getMonth()&&d.getDate()===t.getDate();}
+function findCW(data){const t=new Date();const sun=new Date(t.getFullYear(),t.getMonth(),t.getDate()-t.getDay());let b=0,bd=Infinity;data.forEach((w,i)=>{const d=parseDate(w.dates[0]);if(!d)return;const df=Math.abs(d-sun);if(df<bd){bd=df;b=i;}});return b;}
+document.getElementById('today-badge').textContent=new Date().toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long'});
+
+// ═══ LAYERS BAR ═══
+function buildLayersBar(){
+  let h='<span class="layers-label">קטגוריות:</span>';
+  CAT_ORDER.forEach(l=>{ h+=`<span class="layer-chip on" data-layer="${l}" onclick="toggleLayer(this,'${l.replace(/'/g,"\\'")}')">${l}</span>`; });
+  h+='<div class="layer-divider"></div><span class="layers-label">שכבות:</span>';
+  GRADE_LAYERS.forEach(l=>{ h+=`<span class="layer-chip on" data-layer="${l}" onclick="toggleLayer(this,'${l.replace(/"/g,"&quot;").replace(/'/g,"\\'")}' )">${l}</span>`; });
+  h+='<div class="layer-divider"></div><button class="layer-ctrl" onclick="allLayers()">הכל</button><button class="layer-ctrl" onclick="clearLayers()">נקה</button>';
+  document.getElementById('layers-bar').innerHTML=h;
+}
+function buildMonthSel(){
+  const months=[...new Set(SCHEDULE_DATA.map(w=>w.month).filter(Boolean))];
+  document.getElementById('month-select').innerHTML='<option value="">עבור לחודש...</option>'+months.map((m,i)=>`<option value="${i}">${m}</option>`).join('');
+}
+function toggleLayer(el,layer){
+  if(activeLayers.has(layer))activeLayers.delete(layer);else activeLayers.add(layer);
+  el.classList.toggle('on',activeLayers.has(layer));
+  applyLayers();
+}
+function allLayers(){[...CAT_ORDER,...GRADE_LAYERS].forEach(l=>activeLayers.add(l));document.querySelectorAll('.layer-chip').forEach(c=>c.classList.add('on'));applyLayers();}
+function clearLayers(){activeLayers.clear();document.querySelectorAll('.layer-chip').forEach(c=>c.classList.remove('on'));applyLayers();}
+function applyLayers(){
+  document.querySelectorAll('.cat-row[data-cat]').forEach(r=>r.classList.toggle('layer-hidden',!activeLayers.has(r.dataset.cat)));
+  document.querySelectorAll('[data-grade-row]').forEach(r=>r.classList.toggle('layer-hidden',!activeLayers.has(r.dataset.gradeRow)));
+  document.querySelectorAll('.gbadge[data-grade]').forEach(b=>{ b.style.display=activeLayers.has(b.dataset.grade)?'':'none'; });
 }
 
-function getWeekSunday(d) {
-  const day = d.getDay();
-  const diff = d.getDate() - day;
-  return new Date(d.getFullYear(), d.getMonth(), diff);
+// ═══ CLASSIFY ═══
+function cls(t){if(!t||!t.trim())return'';if(t.includes('בגרות')||t.includes('מתכונת'))return'exam';if(t.includes('מבחן')||t.includes('מבדק'))return'exam';if(t.includes('חופשת')||t.includes('פסח')||t.includes('סוכות')||t.includes('חנוכה')||t.includes('פורים')||t.includes('ראש השנה')||t.includes('יום כיפור')||t.includes('שבועות')||t.includes('שמיני')||t.includes('הושענא')||t.includes('תשעה')||t.includes('צום')||t.includes('תענית'))return'holiday';if(t.includes('פרשת')||t.includes('שבת'))return'shabbat';return'general';}
+function tag(t){if(!t||!t.trim())return'';return`<span class="etag ${cls(t)}">${t.trim()}</span>`;}
+function badges(layers){
+  if(!layers||!layers.length)return'';
+  return'<div class="grade-badges">'+layers.map(g=>{
+    const c=GRADE_CSS[g]||'';const l=GRADE_LBL[g]||g;
+    const vis=activeLayers.has(g)?'':'display:none';
+    return`<span class="gbadge ${c}" data-grade="${g}" style="${vis}">${l}</span>`;
+  }).join('')+'</div>';
 }
 
-function findCurrentWeekIndex(data) {
-  const today = new Date();
-  const sun = getWeekSunday(today);
-  let best = 0, bestDiff = Infinity;
-  data.forEach((week, i) => {
-    const d = parseSecular(week.dates[0]);
-    if (!d) return;
-    const diff = Math.abs(d - sun);
-    if (diff < bestDiff) { bestDiff = diff; best = i; }
-  });
-  return best;
+// ═══ GET/SET ═══
+function getV(key,fb){return edits.hasOwnProperty(key)?edits[key]:(fb||'');}
+function getLayers(key){const v=edits['layers_'+key];return v?v.split(',').filter(Boolean):[];}
+
+// ═══ RENDER ═══
+function render(){
+  const s=document.getElementById('search-input').value.toLowerCase().trim();
+  if(currentTab==='loz')renderSched(s);
+  else if(currentTab==='exams')renderExam(EXAMS_DATA,s,'ex');
+  else renderExam(BAGRUT_DATA,s,'bg');
 }
 
-function isToday(dateStr) {
-  const d = parseSecular(dateStr);
-  if (!d) return false;
-  const t = new Date();
-  return d.getFullYear() === t.getFullYear() && d.getMonth() === t.getMonth() && d.getDate() === t.getDate();
-}
-
-function formatToday() {
-  const d = new Date();
-  return d.toLocaleDateString('he-IL', { weekday:'long', day:'numeric', month:'long' });
-}
-
-// ═══════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════
-document.getElementById('today-badge').textContent = formatToday();
-
-function buildLayersBar() {
-  const bar = document.getElementById('layers-bar');
-  let h = '<span class="layers-label">קטגוריות:</span>';
-  SCHEDULE_LAYERS.forEach(l => {
-    h += `<span class="layer-chip on" data-layer="${l}" onclick="toggleLayer('${l}')">${l}</span>`;
-  });
-  h += '<div class="layer-divider"></div><span class="layers-label">שכבות:</span>';
-  GRADE_LAYERS.forEach(l => {
-    h += `<span class="layer-chip on" data-layer="${l}" onclick="toggleLayer('${l.replace(/"/g,"&quot;")}')">${l}</span>`;
-  });
-  h += '<div class="layer-divider"></div>';
-  h += '<button class="layer-all-btn" onclick="allLayers()">הכל</button>';
-  h += '<button class="layer-all-btn" onclick="clearLayers()">נקה</button>';
-  bar.innerHTML = h;
-}
-
-function buildMonthSelect() {
-  const sel = document.getElementById('month-select');
-  const months = [...new Set(SCHEDULE_DATA.map(w=>w.month).filter(Boolean))];
-  sel.innerHTML = '<option value="">עבור לחודש...</option>' + months.map((m,i)=>`<option value="${i}">${m}</option>`).join('');
-}
-
-// ═══════════════════════════════════════════════════════
-// LAYERS
-// ═══════════════════════════════════════════════════════
-function toggleLayer(layer) {
-  if (activeLayers.has(layer)) activeLayers.delete(layer);
-  else activeLayers.add(layer);
-  document.querySelectorAll(`.layer-chip[data-layer="${CSS.escape(layer)}"]`).forEach(c => {
-    c.classList.toggle('on', activeLayers.has(layer));
-  });
-  applyLayerVisibility();
-}
-function allLayers() {
-  [...SCHEDULE_LAYERS, ...GRADE_LAYERS].forEach(l => activeLayers.add(l));
-  document.querySelectorAll('.layer-chip').forEach(c => c.classList.add('on'));
-  applyLayerVisibility();
-}
-function clearLayers() {
-  activeLayers.clear();
-  document.querySelectorAll('.layer-chip').forEach(c => c.classList.remove('on'));
-  applyLayerVisibility();
-}
-function applyLayerVisibility() {
-  // schedule cat rows
-  document.querySelectorAll('.cat-row[data-cat]').forEach(row => {
-    const cat = row.dataset.cat;
-    row.classList.toggle('layer-hidden', !activeLayers.has(cat));
-  });
-  // exam grade rows & cols
-  document.querySelectorAll('[data-grade-row]').forEach(row => {
-    const g = row.dataset.gradeRow;
-    row.classList.toggle('layer-hidden', !activeLayers.has(g));
-  });
-  document.querySelectorAll('[data-grade-col]').forEach(el => {
-    const g = el.dataset.gradeCol;
-    el.classList.toggle('grade-hidden', !activeLayers.has(g));
-  });
-}
-
-// ═══════════════════════════════════════════════════════
-// CLASSIFY EVENT
-// ═══════════════════════════════════════════════════════
-function classify(text) {
-  if (!text || !text.trim()) return '';
-  if (text.includes('בגרות') || text.includes('מתכונת')) return 'bagrut';
-  if (text.includes('מבחן') || text.includes('מבדק') || text.includes('בוחן')) return 'exam';
-  if (text.includes('חופשת') || text.includes('פסח') || text.includes('סוכות') || text.includes('חנוכה') || text.includes('פורים') || text.includes('ראש השנה') || text.includes('יום כיפור') || text.includes('שבועות') || text.includes('שמיני') || text.includes('הושענא') || text.includes('תשעה') || text.includes('צום')) return 'holiday';
-  if (text.includes('פרשת') || text.includes('שבת')) return 'shabbat';
-  return 'general';
-}
-
-function etagClass(type) {
-  if (type === 'bagrut') return 'exam'; // purple
-  if (type === 'exam') return 'exam';
-  if (type === 'holiday') return 'holiday';
-  if (type === 'shabbat') return 'shabbat';
-  return 'general';
-}
-
-function renderTag(text) {
-  if (!text || !text.trim()) return '';
-  const t = classify(text);
-  return `<span class="etag ${etagClass(t)}">${text.trim()}</span>`;
-}
-
-function catCssClass(cat) {
-  const m = {'פדגוגי':'padagogi','חברתי':'hevrati','פנימיה':'pnimiya','רישום':'rishhum','יעוץ':'yaatz','יעוץ חנמ':'yaatz'};
-  return m[cat] || 'acher';
-}
-
-// ═══════════════════════════════════════════════════════
-// RENDER
-// ═══════════════════════════════════════════════════════
-function getVal(key, fallback) {
-  return edits.hasOwnProperty(key) ? edits[key] : (fallback || '');
-}
-function getLayerVal(key) {
-  return edits['layers_' + key] ? edits['layers_' + key].split(',').filter(Boolean) : [];
-}
-
-function render() {
-  const search = document.getElementById('search-input').value.toLowerCase().trim();
-  if (currentTab === 'loz') renderSchedule(search);
-  else if (currentTab === 'exams') renderExamsTab(EXAMS_DATA, search, 'exams');
-  else renderExamsTab(BAGRUT_DATA, search, 'bagrut');
-}
-
-function renderSchedule(search) {
-  const today = new Date();
-  const currentWeekIdx = findCurrentWeekIndex(SCHEDULE_DATA);
-
-  // Build hero
-  const cw = SCHEDULE_DATA[currentWeekIdx];
-  const heroEvents = [];
-  Object.entries(cw.categories || {}).forEach(([cat, evts]) => {
-    evts.forEach((ev, di) => {
-      const v = getVal(`s-${currentWeekIdx}-${cat}-${di}`, ev);
-      if (v && v.trim()) heroEvents.push(v.trim());
-    });
-  });
-  let heroHtml = `<div class="current-week-hero">
-    <div>
-      <div class="hero-badge">📍 השבוע</div>
-      <div class="hero-dates" style="margin-top:10px">${cw.dates[0]?.split(' * ')[0] || ''} – ${cw.dates[6]?.split(' * ')[0] || ''}</div>
-      <div class="hero-sub">${cw.month || ''}</div>
-    </div>
-    <div class="hero-events">${heroEvents.slice(0,6).map(e=>`<span class="hero-event">${e}</span>`).join('')}</div>
-  </div>`;
-
-  // Group by month
-  const months = {};
-  SCHEDULE_DATA.forEach((week, wi) => {
-    const m = week.month || 'כללי';
-    if (!months[m]) months[m] = [];
-    months[m].push({week, wi});
-  });
-
-  let html = heroHtml;
-
-  if (!API_URL) {
-    html += `<div class="api-info">
-      <strong>⚡ מצב עבודה מקומי</strong>
-      שינויים נשמרים בדפדפן בלבד. לשיתוף בזמן אמת — הכנס את URL של Apps Script בקוד (משתנה <code>API_URL</code>).
-    </div>`;
-  }
-
-  Object.entries(months).forEach(([month, weeks]) => {
-    let monthContent = '';
-    weeks.forEach(({week, wi}) => {
-      // search filter
-      if (search) {
-        let found = false;
-        Object.entries(week.categories || {}).forEach(([cat, evts]) => {
-          evts.forEach((ev, di) => {
-            if (getVal(`s-${wi}-${cat}-${di}`, ev).toLowerCase().includes(search)) found = true;
-          });
+function renderSched(search){
+  const ci=findCW(SCHEDULE_DATA); const cw=SCHEDULE_DATA[ci];
+  const hev=[];
+  CAT_ORDER.forEach(cat=>{(cw.categories[cat]||[]).forEach(ev=>{if(ev&&ev.trim())hev.push(ev.trim());});});
+  let html=`<div class="hero"><div><div class="hero-badge">📍 השבוע</div><div class="hero-dates">${(cw.dates[0]||'').split(' * ')[0]} – ${(cw.dates[6]||'').split(' * ')[0]}</div><div class="hero-sub">${cw.month||''}</div></div><div class="hero-events">${hev.slice(0,6).map(e=>`<span class="hero-event">${e}</span>`).join('')}</div></div>`;
+  const months={};
+  SCHEDULE_DATA.forEach((w,wi)=>{const m=w.month||'כללי';if(!months[m])months[m]=[];months[m].push({w,wi});});
+  Object.entries(months).forEach(([month,weeks])=>{
+    let mc='';
+    weeks.forEach(({w,wi})=>{
+      if(search){let f=false;CAT_ORDER.forEach(cat=>{(w.categories[cat]||[]).forEach((ev,di)=>{if(getV(`s-${wi}-${cat}-${di}`,ev).toLowerCase().includes(search))f=true;});});if(!f)return;}
+      const isCur=wi===ci;
+      mc+=`<div class="week-block${isCur?' current-week':''}" id="week-${wi}"><div class="week-head"><div class="wh-label">שבוע</div>`;
+      w.dates.forEach((d,i)=>{const p=d?d.split(' * '):['',''];mc+=`<div class="wh-day${i===6?' shabbat':''}"><div class="wh-name">${DAY_NAMES[i]}</div><div class="wh-heb">${isToday(d)?'<span class="today-dot"></span>':''}${p[0]||''}</div><div class="wh-sec">${p[1]||''}</div></div>`;});
+      mc+=`</div>`;
+      CAT_ORDER.forEach(cat=>{
+        const evs=w.categories[cat]||Array(7).fill('');
+        mc+=`<div class="cat-row${activeLayers.has(cat)?'':' layer-hidden'}" data-cat="${cat}"><div class="cat-lbl ${CAT_CSS[cat]||'ach'}">${cat}</div>`;
+        evs.forEach((ev,di)=>{
+          const key=`s-${wi}-${cat}-${di}`;const val=getV(key,ev);const layers=getLayers(key);
+          const cc=`event-cell${cls(val)==='holiday'?' holiday-cell':''}${cls(val)==='shabbat'?' shabbat-cell':''}${isEditor?' editable':''}`;
+          mc+=`<div class="${cc}"${isEditor?` onclick="openEdit('${key}','${(val||'').replace(/'/g,"&#39;").replace(/\n/g,' ')}','${cat}')"`:''}>${tag(val)}${layers.length?badges(layers):''}${isEditor&&!val?'<span style="color:#ddd;font-size:0.66rem">+</span>':''}</div>`;
         });
-        if (!found) return;
-      }
-
-      const isCurrent = wi === currentWeekIdx;
-      monthContent += `<div class="week-block${isCurrent?' current-week':''}" id="week-${wi}">`;
-
-      // Date header
-      monthContent += `<div class="week-head"><div class="wh-label">שבוע</div>`;
-      week.dates.forEach((d, i) => {
-        const parts = d ? d.split(' * ') : ['',''];
-        const todayMark = isToday(d) ? `<span class="today-marker"></span>` : '';
-        monthContent += `<div class="wh-day${i===6?' shabbat':''}">
-          <div class="wh-name">${DAY_NAMES[i]}</div>
-          <div class="wh-heb">${todayMark}${parts[0]||''}</div>
-          <div class="wh-sec">${parts[1]||''}</div>
-        </div>`;
+        mc+=`</div>`;
       });
-      monthContent += `</div>`;
-
-      // Cat rows
-      Object.entries(week.categories || {}).forEach(([cat, events]) => {
-        monthContent += `<div class="cat-row" data-cat="${cat}">`;
-        monthContent += `<div class="cat-lbl ${catCssClass(cat)}">${cat}</div>`;
-        events.forEach((ev, di) => {
-          const key = `s-${wi}-${cat}-${di}`;
-          const val = getVal(key, ev);
-          const type = classify(val);
-          const isHol = type === 'holiday';
-          const isShab = type === 'shabbat';
-
-          if (isEditor) {
-            monthContent += `<div class="event-cell editable${isHol?' holiday-cell':''}${isShab?' shabbat-cell':''}"
-              onclick="openEventModal('${key}','${(val||'').replace(/'/g,"&#39;").replace(/\n/g,' ')}','${cat}')">
-              ${val ? renderTag(val) : '<span style="color:#ddd;font-size:0.7rem">+</span>'}
-            </div>`;
-          } else {
-            monthContent += `<div class="event-cell${isHol?' holiday-cell':''}${isShab?' shabbat-cell':''}">
-              ${renderTag(val)}
-            </div>`;
-          }
-        });
-        monthContent += `</div>`;
-      });
-
-      monthContent += `</div>`;
+      mc+=`</div>`;
     });
-
-    if (monthContent) {
-      html += `<div class="month-sec">
-        <div class="month-head"><span>📅 ${month}</span></div>
-        ${monthContent}
-      </div>`;
-    }
+    if(mc)html+=`<div class="month-sec"><div class="month-head">📅 ${month}</div>${mc}</div>`;
   });
-
-  document.getElementById('main').innerHTML = html;
-  applyLayerVisibility();
-
-  // Scroll to current week on first load
-  if (!search) {
-    setTimeout(() => {
-      const el = document.getElementById(`week-${currentWeekIdx}`);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 120);
-  }
+  document.getElementById('main').innerHTML=html;
+  applyLayers();
+  if(!search)setTimeout(()=>{const el=document.getElementById(`week-${ci}`);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120);
 }
 
-function renderExamsTab(data, search, prefix) {
-  const grades = ['שכבת ז','שכבת ח','שכבת ט','שכבת י','שכבת י"א','שכבת י"ב'];
-  const title = prefix === 'bagrut' ? '🎓 בגרויות ומתכונות' : '📝 לוח מבחנים';
-  let html = `<h2 style="font-size:1.1rem;font-weight:800;color:var(--accent);margin-bottom:20px">${title}</h2>`;
-
-  const months = {};
-  data.forEach((week, wi) => {
-    const m = week.month || 'כללי';
-    if (!months[m]) months[m] = [];
-    months[m].push({week, wi});
-  });
-
-  Object.entries(months).forEach(([month, weeks]) => {
-    html += `<div class="month-sec"><div class="month-head">📅 ${month}</div>`;
-    weeks.forEach(({week, wi}) => {
-      html += `<div class="exam-wrap"><table class="exam-tbl">`;
-      html += `<thead><tr><th class="grade-th">שכבה</th>`;
-      week.dates.forEach((d, i) => {
-        const parts = d ? d.split(' * ') : ['',''];
-        const todayMark = isToday(d) ? '🔵 ' : '';
-        html += `<th data-grade-col="" style="${i===6?'background:#1a4a2a':''}">
-          <div>${DAY_NAMES[i]}</div>
-          <div>${todayMark}${parts[0]||''}</div>
-          <div style="color:var(--accent2);font-size:0.65rem">${parts[1]||''}</div>
-        </th>`;
-      });
-      html += `</tr></thead><tbody>`;
-
-      grades.forEach(grade => {
-        const events = (week.grades || {})[grade] || Array(7).fill('');
-        html += `<tr data-grade-row="${grade}">`;
-        html += `<td class="grade-td">${grade}</td>`;
-        events.forEach((ev, di) => {
-          const key = `${prefix}-${wi}-${grade}-${di}`;
-          const val = getVal(key, ev);
-          const type = classify(val);
-          const cellCls = type === 'bagrut' ? 'bagrut-cell' : type === 'exam' ? 'exam-cell' : '';
-
-          if (isEditor) {
-            html += `<td class="${cellCls} editable" onclick="openEventModal('${key}','${(val||'').replace(/'/g,"&#39;")}','${grade}')">
-              ${val ? renderTag(val) : '<span style="color:#eee">+</span>'}
-            </td>`;
-          } else {
-            html += `<td class="${cellCls}">${renderTag(val)}</td>`;
-          }
+function renderExam(data,search,prefix){
+  const title=prefix==='bg'?'🎓 בגרויות ומתכונות':'📝 לוח מבחנים';
+  let html=`<h2 style="font-size:0.96rem;font-weight:800;color:var(--accent);margin-bottom:16px">${title}</h2>`;
+  const months={};
+  data.forEach((w,wi)=>{const m=w.month||'כללי';if(!months[m])months[m]=[];months[m].push({w,wi});});
+  Object.entries(months).forEach(([month,weeks])=>{
+    html+=`<div class="month-sec"><div class="month-head">📅 ${month}</div>`;
+    weeks.forEach(({w,wi})=>{
+      html+=`<div class="exam-wrap"><table class="exam-tbl"><thead><tr><th>שכבה</th>`;
+      w.dates.forEach((d,i)=>{const p=d?d.split(' * '):['',''];html+=`<th style="${i===6?'background:#1a4a2a':''}"><div>${DAY_NAMES[i]}</div><div>${isToday(d)?'🔵':''} ${p[0]||''}</div><div style="color:var(--accent2);font-size:0.6rem">${p[1]||''}</div></th>`;});
+      html+=`</tr></thead><tbody>`;
+      GRADE_LAYERS.forEach(grade=>{
+        const evs=(w.grades||{})[grade]||Array(7).fill('');
+        const hidden=!activeLayers.has(grade);
+        html+=`<tr data-grade-row="${grade}"${hidden?' class="layer-hidden"':''}><td class="grade-td">${grade}</td>`;
+        evs.forEach((ev,di)=>{
+          const key=`${prefix}-${wi}-${grade}-${di}`;const val=getV(key,ev);
+          const tc=cls(val)==='exam'?'exam-cell':'';
+          html+=`<td class="${tc}"${isEditor?` onclick="openEdit('${key}','${(val||'').replace(/'/g,"&#39;")}','${grade}')"`:''}>${tag(val)||''}</td>`;
         });
-        html += `</tr>`;
+        html+=`</tr>`;
       });
-
-      html += `</tbody></table></div>`;
+      html+=`</tbody></table></div>`;
     });
-    html += `</div>`;
+    html+=`</div>`;
   });
-
-  document.getElementById('main').innerHTML = html;
-  applyLayerVisibility();
+  document.getElementById('main').innerHTML=html;
+  applyLayers();
 }
 
-// ═══════════════════════════════════════════════════════
-// TAB SWITCHING
-// ═══════════════════════════════════════════════════════
-function switchTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  render();
-}
+// ═══ TAB ═══
+function switchTab(tab){currentTab=tab;document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+tab).classList.add('active');render();}
 
-// ═══════════════════════════════════════════════════════
-// JUMP
-// ═══════════════════════════════════════════════════════
-function jumpToMonth(val) {
-  if (!val) return;
-  const wi = parseInt(val) * 4; // rough
-  // find first week of that month
-  const month = [...new Set(SCHEDULE_DATA.map(w=>w.month).filter(Boolean))][parseInt(val)];
-  const idx = SCHEDULE_DATA.findIndex(w => w.month === month);
-  const el = document.getElementById(`week-${idx}`);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-function jumpToToday() {
-  const idx = findCurrentWeekIndex(SCHEDULE_DATA);
-  const el = document.getElementById(`week-${idx}`);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
+// ═══ NAV ═══
+function jumpToMonth(val){if(!val)return;const months=[...new Set(SCHEDULE_DATA.map(w=>w.month).filter(Boolean))];const month=months[parseInt(val)];const idx=SCHEDULE_DATA.findIndex(w=>w.month===month);const el=document.getElementById(`week-${idx}`);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+function jumpToToday(){const el=document.getElementById(`week-${findCW(SCHEDULE_DATA)}`);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
 
-// ═══════════════════════════════════════════════════════
-// AUTH
-// ═══════════════════════════════════════════════════════
-function openLogin() { document.getElementById('login-modal').classList.add('open'); setTimeout(() => document.getElementById('pw-in').focus(), 100); }
-function doLogin() {
-  if (document.getElementById('pw-in').value === EDIT_PASSWORD) {
-    isEditor = true;
-    closeModal('login-modal');
-    document.getElementById('edit-badge').style.display = '';
-    document.getElementById('login-btn').style.display = 'none';
-    document.getElementById('logout-btn').style.display = '';
-    document.getElementById('save-btn').style.display = '';
-    showStatus('✅ נכנסת למצב עריכה. לחץ על תא כדי לערוך.');
-    render();
-  } else {
-    document.getElementById('pw-err').style.display = 'block';
-  }
+// ═══ AUTH ═══
+function openLogin(){document.getElementById('login-modal').classList.add('open');setTimeout(()=>document.getElementById('pw-in').focus(),100);}
+function doLogin(){
+  if(document.getElementById('pw-in').value===EDIT_PASSWORD){
+    isEditor=true;closeModal('login-modal');
+    document.getElementById('edit-badge').style.display='';
+    document.getElementById('login-btn').style.display='none';
+    document.getElementById('logout-btn').style.display='';
+    document.getElementById('save-btn').style.display='';
+    showStatus('✅ מצב עריכה פעיל — לחץ על תא לעריכה');render();
+  }else{document.getElementById('pw-err').style.display='block';}
 }
-function doLogout() {
-  isEditor = false;
-  document.getElementById('edit-badge').style.display = 'none';
-  document.getElementById('login-btn').style.display = '';
-  document.getElementById('logout-btn').style.display = 'none';
-  document.getElementById('save-btn').style.display = 'none';
-  render();
-}
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function doLogout(){isEditor=false;document.getElementById('edit-badge').style.display='none';document.getElementById('login-btn').style.display='';document.getElementById('logout-btn').style.display='none';document.getElementById('save-btn').style.display='none';render();}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-// ═══════════════════════════════════════════════════════
-// EVENT EDIT MODAL
-// ═══════════════════════════════════════════════════════
-const ALL_LAYERS = [...SCHEDULE_LAYERS, ...GRADE_LAYERS];
-
-function openEventModal(key, currentVal, context) {
-  if (!isEditor) return;
-  pendingEdit = { key };
-  document.getElementById('event-modal-title').textContent = `✏️ עריכת אירוע — ${context}`;
-  document.getElementById('event-text').value = currentVal;
-
-  // Build layer checkboxes
-  const savedLayers = getLayerVal(key);
-  const checksDiv = document.getElementById('layers-checks');
-  checksDiv.innerHTML = ALL_LAYERS.map(l => {
-    const checked = savedLayers.length === 0 || savedLayers.includes(l) ? 'checked' : '';
-    return `<label class="layer-check-item">
-      <input type="checkbox" name="layer" value="${l}" ${checked}>
-      <span>${l}</span>
-    </label>`;
+// ═══ EDIT MODAL ═══
+function openEdit(key,val,ctx){
+  if(!isEditor)return;
+  pendingEdit=key;
+  document.getElementById('em-title').textContent=`✏️ עריכת אירוע — ${ctx}`;
+  document.getElementById('em-text').value=val;
+  const saved=getLayers(key);
+  // Default: ALL UNCHECKED. Only check what was explicitly saved.
+  document.getElementById('em-layers').innerHTML=GRADE_LAYERS.map(g=>{
+    const checked=saved.includes(g)?'checked':'';
+    return`<label class="lcheck"><input type="checkbox" name="gl" value="${g}" ${checked}><span class="gbadge ${GRADE_CSS[g]||''}" style="font-size:0.76rem;padding:2px 8px">${GRADE_LBL[g]||g}</span></label>`;
   }).join('');
-
   document.getElementById('event-modal').classList.add('open');
-  setTimeout(() => document.getElementById('event-text').focus(), 100);
+  setTimeout(()=>document.getElementById('em-text').focus(),100);
 }
-
-function saveEventModal() {
-  if (!pendingEdit) return;
-  const key = pendingEdit.key;
-  const text = document.getElementById('event-text').value;
-  const checked = [...document.querySelectorAll('#layers-checks input:checked')].map(i => i.value);
-
-  edits[key] = text;
-  edits['layers_' + key] = checked.join(',');
-
+function saveEvent(){
+  if(!pendingEdit)return;
+  const key=pendingEdit;
+  const text=document.getElementById('em-text').value;
+  const checked=[...document.querySelectorAll('#em-layers input:checked')].map(i=>i.value);
+  edits[key]=text; edits['layers_'+key]=checked.join(',');
   closeModal('event-modal');
-  
-  // Save to API if available, fallback to localStorage
-  if (API_URL) {
-    pushToAPI(key, text).then(() => showStatus('✅ נשמר ב-Google Sheets'));
-  }
-  localStorage.setItem('sched_edits_v2', JSON.stringify(edits));
-  showStatus('💾 נשמר (לחץ "שמור" לשמירה סופית)');
-  render();
+  localStorage.setItem('sched_v3',JSON.stringify(edits));
+  if(API_URL)pushAPI(key,text);
+  showStatus('💾 נשמר');render();
 }
 
-// ═══════════════════════════════════════════════════════
-// SAVE / API
-// ═══════════════════════════════════════════════════════
-function saveEdits() {
-  localStorage.setItem('sched_edits_v2', JSON.stringify(edits));
-  if (API_URL) {
-    showStatus('⏳ שומר ב-Google Sheets...');
-    Promise.all(Object.keys(edits).filter(k => !k.startsWith('layers_')).map(k =>
-      pushToAPI(k, edits[k])
-    )).then(() => showStatus('✅ כל השינויים נשמרו ב-Google Sheets!'));
-  } else {
-    showStatus('💾 נשמר בדפדפן. לשיתוף — הגדר API_URL.');
-  }
+// ═══ SAVE/API ═══
+function saveEdits(){
+  localStorage.setItem('sched_v3',JSON.stringify(edits));
+  if(API_URL){showStatus('⏳ שומר...');Promise.all(Object.keys(edits).filter(k=>!k.startsWith('layers_')).map(k=>pushAPI(k,edits[k]))).then(()=>showStatus('✅ נשמר ב-Google!'));}
+  else showStatus('💾 נשמר בדפדפן');
 }
+async function pushAPI(key,value){if(!API_URL)return;try{await fetch(API_URL,{method:'POST',body:JSON.stringify({password:EDIT_PASSWORD,action:'set',key,value})});}catch(e){}}
 
-async function pushToAPI(key, value) {
-  if (!API_URL) return;
-  try {
-    const [prefix, wi, cat, di] = key.split('-');
-    await fetch(API_URL, {
-      method: 'POST',
-      body: JSON.stringify({
-        password: EDIT_PASSWORD,
-        sheetName: prefix === 's' ? 'schedule' : (prefix === 'bagrut' ? 'bagrut' : 'exams'),
-        week_id: wi, field: `${cat}_${di}`, value
-      })
+// ═══ EXCEL EXPORT ═══
+function exportExcel(){
+  let csv='\uFEFF';
+  csv+='חודש,שבוע,יום,תאריך עברי,תאריך לועזי,'+CAT_ORDER.join(',')+'\n';
+  SCHEDULE_DATA.forEach((week,wi)=>{
+    week.dates.forEach((d,di)=>{
+      const p=d?d.split(' * '):['',''];
+      const row=[week.month,`${(week.dates[0]||'').split(' * ')[0]} - ${(week.dates[6]||'').split(' * ')[0]}`,DAY_NAMES[di],p[0]||'',p[1]||''];
+      CAT_ORDER.forEach(cat=>{const ev=week.categories[cat]||[];const val=getV(`s-${wi}-${cat}-${di}`,ev[di]||'');row.push(`"${val.replace(/"/g,'""')}"`);});
+      csv+=row.join(',')+'\n';
     });
-  } catch(e) { console.warn('API error', e); }
+  });
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='לוח_שנה_תשפו.csv'; a.click();
+  URL.revokeObjectURL(url);
+  showStatus('📥 הקובץ הורד — פתח עם Excel');
 }
 
-// ═══════════════════════════════════════════════════════
-// STATUS
-// ═══════════════════════════════════════════════════════
-let statusTimer;
-function showStatus(msg) {
-  document.getElementById('status-msg').textContent = msg;
-  document.getElementById('status-bar').classList.add('show');
-  clearTimeout(statusTimer);
-  statusTimer = setTimeout(hideStatus, 4000);
-}
-function hideStatus() { document.getElementById('status-bar').classList.remove('show'); }
+// ═══ STATUS ═══
+let stT;
+function showStatus(msg){document.getElementById('status-msg').textContent=msg;document.getElementById('status-bar').classList.add('show');clearTimeout(stT);stT=setTimeout(hideStatus,4000);}
+function hideStatus(){document.getElementById('status-bar').classList.remove('show');}
 
-// ═══════════════════════════════════════════════════════
-// BOOT — מציג מיד, טוען עדכונים מ-API ברקע
-// ═══════════════════════════════════════════════════════
+// ═══ BOOT ═══
 buildLayersBar();
-buildMonthSelect();
-render(); // מציג נתונים מובנים מיד — ללא המתנה
-
-// טעינת עדכונים מ-API ברקע (אם מוגדר)
-if (API_URL) {
-  fetch(API_URL + '?t=' + Date.now())
-    .then(r => r.json())
-    .then(res => {
-      if (res.ok && res.data && Object.keys(res.data).length > 0) {
-        Object.assign(edits, res.data);
-        localStorage.setItem('sched_edits_v2', JSON.stringify(edits));
-        render();
-      }
-    })
-    .catch(() => {
-      // API לא זמין — ממשיך עם נתונים מקומיים
-    });
+buildMonthSel();
+render();
+if(API_URL){
+  fetch(API_URL+'?t='+Date.now()).then(r=>r.json()).then(res=>{
+    if(res.ok&&res.data&&Object.keys(res.data).length>0){Object.assign(edits,res.data);localStorage.setItem('sched_v3',JSON.stringify(edits));render();}
+  }).catch(()=>{});
 }
 </script>
 </body>
