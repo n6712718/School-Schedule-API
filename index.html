@@ -97,9 +97,9 @@ body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);direc
 .hero-days{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;}
 .hday{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:9px 7px;min-height:80px;animation:fadeUp .35s ease both;}
 .hday.today-day{background:rgba(196,123,26,.2)!important;border-color:var(--acc2)!important;}
-.hday-name{font-size:.62rem;font-weight:700;color:rgba(255,255,255,.55);}
-.hday-heb{font-size:.74rem;font-weight:800;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.hday-sec{font-size:.6rem;color:var(--acc2);margin-bottom:5px;}
+.hday-name{font-size:.82rem;font-weight:800;color:rgba(255,255,255,.65);}
+.hday-heb{font-size:.86rem;font-weight:800;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.hday-sec{font-size:.7rem;color:var(--acc2);font-weight:600;margin-bottom:5px;}
 .hday-evs{display:flex;flex-direction:column;gap:2px;}
 .hday-ev{font-size:.63rem;color:rgba(255,255,255,.82);display:flex;align-items:flex-start;gap:3px;line-height:1.3;}
 .hday-dot{flex-shrink:0;width:5px;height:5px;border-radius:50%;margin-top:3px;}
@@ -124,9 +124,9 @@ body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);direc
 .wh-lbl{display:flex;align-items:center;justify-content:center;font-size:.58rem;color:rgba(255,255,255,.3);font-weight:600;padding:8px 2px;border-left:1px solid rgba(255,255,255,.06);}
 .wh-day{padding:7px 4px;text-align:center;border-right:1px solid rgba(255,255,255,.06);}
 .wh-day.shab .wh-heb{color:#a8e6b0;}
-.wh-name{font-size:.56rem;color:rgba(255,255,255,.35);}
-.wh-heb{font-size:.7rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.wh-sec{font-size:.59rem;color:var(--acc2);font-weight:500;}
+.wh-name{font-size:.65rem;color:rgba(255,255,255,.35);font-weight:600;}
+.wh-heb{font-size:.82rem;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.wh-sec{font-size:.76rem;color:var(--acc2);font-weight:700;}
 .today-dot{display:inline-block;width:5px;height:5px;background:var(--acc2);border-radius:50%;margin-left:2px;vertical-align:middle;}
 
 .cat-row{display:grid;grid-template-columns:90px repeat(7,1fr);border-top:1px solid var(--border);transition:opacity .2s;}
@@ -141,6 +141,7 @@ body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);direc
 .ecell.editable{cursor:pointer;} .ecell.editable:hover{background:#fffbf0!important;outline:2px dashed var(--acc2);outline-offset:-2px;}
 .ecell.drag-over{background:#fffbf0!important;outline:2px dashed var(--acc2)!important;}
 .ecell.selected{outline:2.5px solid var(--acc2);background:#fffbf0!important;box-shadow:0 0 0 3px rgba(196,123,26,.15);}
+.ev-item-row.item-selected{background:rgba(196,123,26,.15);border-radius:4px;outline:1.5px solid var(--acc2);}
 
 .etag{display:inline-block;border-radius:3px;padding:2px 5px;font-size:.67rem;font-weight:700;margin:1px;line-height:1.4;}
 .et-gen{background:#edf3ff;color:#1a3a6b;} .et-hol{background:#fdecea;color:#7a1a1a;}
@@ -184,6 +185,12 @@ body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);direc
 #pw-err{color:#b52828;font-size:.78rem;margin-top:6px;display:none;}
 
 /* ── STATUS ── */
+.edit-toolbar{position:fixed;bottom:0;left:0;right:0;background:var(--hdr);padding:6px 12px;display:none;align-items:center;gap:6px;z-index:101;flex-wrap:wrap;}
+.edit-toolbar.show{display:flex;}
+.tb-btn{padding:5px 12px;border:none;border-radius:6px;font-family:'Heebo',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;background:rgba(255,255,255,.12);color:#fff;transition:all .15s;}
+.tb-btn:hover{background:rgba(255,255,255,.22);}
+.tb-btn.tb-del{background:rgba(181,40,40,.7);}
+.tb-btn.tb-edit{background:var(--acc2);}
 .status{position:fixed;bottom:0;left:0;right:0;background:var(--hdr);color:rgba(255,255,255,.8);padding:6px 18px;font-size:.74rem;display:flex;align-items:center;gap:12px;z-index:100;transform:translateY(100%);transition:transform .3s;}
 .status.show{transform:translateY(0);}
 
@@ -244,6 +251,17 @@ body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);direc
 <main class="main" id="main"></main>
 
 <!-- STATUS -->
+<div class="edit-toolbar" id="edit-toolbar">
+  <span style="font-size:.72rem;color:rgba(255,255,255,.5);margin-left:4px">תא נבחר:</span>
+  <button class="tb-btn tb-edit" onclick="openEditSelected()">✏️ ערוך</button>
+  <button class="tb-btn tb-del" onclick="deleteSelectedCell()">🗑️ מחק</button>
+  <button class="tb-btn" onclick="cutSelected()">✂️ גזור</button>
+  <button class="tb-btn" onclick="copySelected()">📋 העתק</button>
+  <button class="tb-btn" onclick="pasteSelected()">📌 הדבק</button>
+  <button class="tb-btn" onclick="undo()">↩ בטל</button>
+  <button class="tb-btn" onclick="redo()">↪ החזר</button>
+  <button class="tb-btn" style="margin-right:auto" onclick="clearSelection()">✕</button>
+</div>
 <div class="status" id="status"><span id="status-msg" style="flex:1"></span><span style="cursor:pointer;color:var(--acc2);font-weight:700" onclick="hideStatus()">✕</span></div>
 
 <!-- LOGIN MODAL -->
@@ -319,84 +337,108 @@ let dragKey = null;
 let selectedCell = null; // key of selected cell
 let clipboard = null;
 let activeYearIdx = 0;
-// Undo/Redo history
-let history = [];
-let historyIdx = -1;
+// ── UNDO/REDO ──
+// Stack-based: _undoStack holds snapshots BEFORE each change
+// _redoStack holds snapshots for redo
+let _undoStack = [];
+let _redoStack = [];
 const MAX_HISTORY = 50;
 
 function saveHistory() {
-  // Remove any redo states ahead
-  history = history.slice(0, historyIdx+1);
-  history.push(JSON.stringify(edits));
-  if(history.length > MAX_HISTORY) history.shift();
-  historyIdx = history.length - 1;
+  // Save current state BEFORE a change happens
+  _undoStack.push(JSON.stringify(edits));
+  if(_undoStack.length > MAX_HISTORY) _undoStack.shift();
+  _redoStack = []; // clear redo on new action
 }
+
 function undo() {
-  if(historyIdx <= 0) { showStatus('אין פעולה לביטול'); return; }
-  historyIdx--;
-  edits = JSON.parse(history[historyIdx]);
+  if(!_undoStack.length) { showStatus('אין פעולה לביטול'); return; }
+  _redoStack.push(JSON.stringify(edits)); // save current for redo
+  edits = JSON.parse(_undoStack.pop());
   persist(); render(); showStatus('↩️ בוטל');
 }
+
 function redo() {
-  if(historyIdx >= history.length-1) { showStatus('אין פעולה להחזרה'); return; }
-  historyIdx++;
-  edits = JSON.parse(history[historyIdx]);
+  if(!_redoStack.length) { showStatus('אין פעולה להחזרה'); return; }
+  _undoStack.push(JSON.stringify(edits)); // save current for undo
+  edits = JSON.parse(_redoStack.pop());
   persist(); render(); showStatus('↪️ הוחזר');
 }
 // Keyboard shortcuts
-document.addEventListener('keydown', e => {
+document.addEventListener('keydown', function(e) {
   if(!isEditor) return;
-  if((e.ctrlKey||e.metaKey) && e.key==='z' && !e.shiftKey) { e.preventDefault(); undo(); return; }
-  if((e.ctrlKey||e.metaKey) && (e.key==='y' || (e.key==='z'&&e.shiftKey))) { e.preventDefault(); redo(); return; }
-  // Delete selected cell
-  if((e.key==='Delete'||e.key==='Backspace') && selectedCell) {
-    const active = document.activeElement;
-    // Don't delete if typing in an input
-    if(active && (active.tagName==='INPUT'||active.tagName==='TEXTAREA')) return;
+  const tag = document.activeElement?.tagName;
+  const inInput = tag==='INPUT' || tag==='TEXTAREA';
+
+  // Undo: Ctrl+Z
+  if((e.ctrlKey||e.metaKey) && e.key==='z' && !e.shiftKey) {
+    e.preventDefault(); undo(); return;
+  }
+  // Redo: Ctrl+Y or Ctrl+Shift+Z
+  if((e.ctrlKey||e.metaKey) && (e.key==='y' || (e.key==='z' && e.shiftKey))) {
+    e.preventDefault(); redo(); return;
+  }
+
+  // Cell operations — only when cell selected and not typing
+  const _selKey = typeof selectedCell==='object' ? selectedCell?.key : selectedCell;
+  if(!_selKey || inInput) return;
+
+  // Delete / Backspace
+  if(e.key==='Delete' || e.key==='Backspace') {
     e.preventDefault();
     deleteSelectedCell();
-  }
-  // Escape = deselect
-  if(e.key==='Escape') { clearSelection(); }
-});
-
-let _clickTimer = null;
-let _clickTarget = null;
-
-function handleCellClick(e, key, origVal, cat) {
-  e.stopPropagation();
-  if(_clickTimer && _clickTarget === key) {
-    // Second click = double click → edit
-    clearTimeout(_clickTimer);
-    _clickTimer = null;
-    _clickTarget = null;
-    clearSelection();
-    openEdit(key, origVal, cat);
     return;
   }
-  // First click = select
-  clearSelection();
-  selectedCell = key;
-  e.currentTarget.classList.add('selected');
-  showStatus('לחץ שוב לעריכה · Delete למחיקה · Esc לביטול');
-  _clickTarget = key;
-  _clickTimer = setTimeout(() => {
-    _clickTimer = null;
-    _clickTarget = null;
-  }, 400);
-}
+  // Cut: Ctrl+X
+  if((e.ctrlKey||e.metaKey) && e.key==='x') {
+    e.preventDefault();
+    clipboard = { items: JSON.parse(JSON.stringify(getCellItems(selectedCell, getOriginalVal(selectedCell)))) };
+    saveHistory();
+    setCellItems(selectedCell, []);
+    clearSelection(); persist(); render();
+    showStatus('✂️ גזור');
+    return;
+  }
+  // Copy: Ctrl+C
+  if((e.ctrlKey||e.metaKey) && e.key==='c') {
+    e.preventDefault();
+    clipboard = { items: JSON.parse(JSON.stringify(getCellItems(selectedCell, getOriginalVal(selectedCell)))) };
+    showStatus('📋 הועתק');
+    return;
+  }
+  // Paste: Ctrl+V
+  if((e.ctrlKey||e.metaKey) && e.key==='v') {
+    e.preventDefault();
+    if(!clipboard || !clipboard.items || !clipboard.items.length) {
+      showStatus('אין תוכן בלוח'); return;
+    }
+    saveHistory();
+    const existing = getCellItems(selectedCell, getOriginalVal(selectedCell));
+    setCellItems(selectedCell, [...existing, ...clipboard.items]);
+    persist(); render();
+    showStatus('📌 הודבק');
+    return;
+  }
+  // Escape
+  if(e.key==='Escape') { clearSelection(); }
+}, {capture: true});
 
-function selectCell(e, key) {
-  // Legacy - redirect
-  handleCellClick(e, key, '', '');
-}
+
 
 function deleteSelectedCell() {
   if(!selectedCell) return;
   saveHistory();
-  setCellItems(selectedCell, []);
-  delete edits[selectedCell];
-  delete edits['items_'+selectedCell];
+  if(typeof selectedCell === 'object' && selectedCell.itemIdx !== null && selectedCell.itemIdx !== undefined) {
+    // Delete single item
+    const {key, itemIdx} = selectedCell;
+    const items = getCellItems(key, getOriginalVal(key));
+    items.splice(itemIdx, 1);
+    setCellItems(key, items);
+  } else {
+    // Delete whole cell
+    const key = typeof selectedCell === 'object' ? selectedCell.key : selectedCell;
+    setCellItems(key, []);
+  }
   clearSelection();
   persist();
   showStatus('🗑️ נמחק');
@@ -404,10 +446,11 @@ function deleteSelectedCell() {
 }
 
 function clearSelection() {
-  if(selectedCell) {
-    document.querySelectorAll('.ecell.selected').forEach(el=>el.classList.remove('selected'));
-    selectedCell = null;
-  }
+  document.querySelectorAll('.ecell.selected').forEach(el=>el.classList.remove('selected'));
+  document.querySelectorAll('.ev-item-row.item-selected').forEach(el=>el.classList.remove('item-selected'));
+  selectedCell = null;
+  const tb = document.getElementById('edit-toolbar');
+  if(tb) tb.classList.remove('show');
 }
 
 try { edits = JSON.parse(localStorage.getItem('sched_v4') || '{}'); } catch(e){}
@@ -582,11 +625,11 @@ function getCellItems(key, fallbackText) {
 }
 function setCellItems(key, items) {
   if(!items.length) {
-    delete edits['items_'+key];
-    delete edits[key]; // clear legacy
+    // Save explicit empty marker so getCellItems returns []
+    edits['items_'+key] = '[]';
+    edits[key] = '';
   } else {
     edits['items_'+key] = JSON.stringify(items);
-    // Keep legacy key as first item text for backward compat
     edits[key] = items[0].text||'';
   }
 }
@@ -673,6 +716,7 @@ function renderLoz() {
   let heroHtml = `<div id="hero-snapshot">
   <div style="text-align:center;margin-bottom:8px;padding:6px 0 2px">
     <div style="font-size:1.35rem;font-weight:900;color:var(--text);letter-spacing:.01em">${weekTitle}</div>
+    <div style="font-size:1.05rem;font-weight:800;background:linear-gradient(135deg,#c47b1a,#e8b84b,#c47b1a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.04em;margin-top:4px">ישיבת בני עקיבא עלי</div>
   </div>
   <div class="hero">
     <div class="hero-top">
@@ -696,7 +740,10 @@ function renderLoz() {
           <button onclick="showFriday=!showFriday;render()" id="tog-fri" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);border-radius:5px;padding:3px 8px;font-size:.63rem;cursor:pointer;font-family:Heebo,sans-serif">שישי ${showFriday?'✓':'✗'}</button>
           <button onclick="showSaturday=!showSaturday;render()" id="tog-sat" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);border-radius:5px;padding:3px 8px;font-size:.63rem;cursor:pointer;font-family:Heebo,sans-serif">שבת ${showSaturday?'✓':'✗'}</button>
         </div>
-        <div class="hero-share">📲 שלח לצוות ולתלמידים</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:4px">
+          <button onclick="sendEmail()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:5px 10px;font-size:.65rem;cursor:pointer;font-family:Heebo,sans-serif">📧 מייל</button>
+          <button onclick="sendWhatsapp()" style="background:rgba(37,211,102,.2);border:1px solid rgba(37,211,102,.4);color:#fff;border-radius:7px;padding:5px 10px;font-size:.65rem;cursor:pointer;font-family:Heebo,sans-serif">💬 וואטסאפ</button>
+        </div>
       </div>
     </div>
     <div class="hero-days">`;
@@ -877,23 +924,37 @@ function renderLoz() {
         const c=classify(val);
         const cls=`ecell${c==='hol'?' hol':''}${c==='shab'?' shab-c':''}${isEditor?' editable':''}`;
                 const items = getCellItems(key, val);
-        const itemsHTML = items.map(item=>{
-          // Table view: only event tag + badges, NO time/loc/note
+        const itemsHTML = items.map((item,itemIdx)=>{
           const badges = (item.layers&&item.layers.length) ? renderBadges(item.layers) : '';
+          if(isEditor) {
+            // Each item draggable individually via handle
+            const itemDragKey = key+'__'+itemIdx;
+            return `<div class="ev-item-row"
+              data-key="${key}" data-item-idx="${itemIdx}"
+              draggable="true"
+              ondragstart="dragItemStart(event,'${key}',${itemIdx})"
+              ondragover="event.stopPropagation();event.preventDefault();this.style.outline='2px dashed var(--acc2)'"
+              ondragleave="this.style.outline=''"
+              ondrop="dropOnItem(event,'${key}',${itemIdx})"
+              style="display:flex;align-items:flex-start;gap:2px;margin-bottom:2px;cursor:pointer;padding:1px 2px;border-radius:3px"
+              onclick="event.stopPropagation();selectItem(event,'${key}',${itemIdx})">
+              <span style="cursor:grab;color:#ccc;font-size:.7rem;padding:2px 2px 0;flex-shrink:0" title="גרור">⠿</span>
+              <div>${etag(item.text)}${badges}</div>
+            </div>`;
+          }
           return `<div style="margin-bottom:2px">${etag(item.text)}${badges}</div>`;
         }).join('');
         if(isEditor) {
           html+=`<div class="${cls}"
             draggable="true"
+            data-key="${key}"
+            data-cat="${cat}"
             ondragstart="dragStart(event,'${key}')"
             ondragover="event.preventDefault();this.classList.add('drag-over')"
             ondragleave="this.classList.remove('drag-over')"
-            ondrop="doDrop(event,'${key}')"
-            onclick="selectCell('${key}',event)"
-            ondblclick="openEdit('${key}',getOriginalVal('${key}'),'${cat}',event)">
+            ondrop="doDrop(event,'${key}')">
             ${itemsHTML}
             ${items.length?`<button class="copy-btn" onclick="event.stopPropagation();copyCell('${key}')" title="העתק">⧉</button>`:''}
-            
           </div>`;
         } else {
           html+=`<div class="${cls}">${itemsHTML||''}</div>`;
@@ -1047,7 +1108,7 @@ function doLogin(){
     document.getElementById('login-btn').style.display='none';
     document.getElementById('logout-btn').style.display='';
     document.getElementById('save-btn').style.display='';
-    saveHistory(); // save initial state
+    // Ready to edit
     showStatus('✅ מצב עריכה — לחץ על תא לעריכה');render();
   }else{document.getElementById('pw-err').style.display='block';}
 }
@@ -1141,12 +1202,9 @@ document.addEventListener('keydown', function(e) {
     if(['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) return;
     e.preventDefault();
     saveHistory();
-    setCellItems(selectedCell, []);
-    delete edits[selectedCell];
-    delete edits['layers_'+selectedCell];
-    delete edits['items_'+selectedCell];
-    persist();
+    setCellItems(selectedCell, []); // saves '[]' marker
     selectedCell = null;
+    persist();
     showStatus('🗑️ נמחק');
     render();
   }
@@ -1198,8 +1256,8 @@ function openEdit(key, val, ctx, e) {
   if(!isEditor) return;
   pendingEdit=key;
   document.getElementById('em-title').textContent=`✏️ ${ctx}`;
-  // Load existing items
-  editingItems = getCellItems(key, val);
+  // Load existing items — always use original ALL_SCHED val for legacy
+  editingItems = getCellItems(key, getOriginalVal(key));
   if(!editingItems.length) editingItems=[{text:'',layers:[],time:'',loc:'',note:''}];
   // Deep copy to avoid mutation
   editingItems = editingItems.map(i=>({...i, layers:[...(i.layers||[])]}));
@@ -1226,9 +1284,9 @@ function saveEvent() {
   });
   // Filter empty items
   const items = editingItems.filter(i=>i.text&&i.text.trim());
+  saveHistory();
   setCellItems(key, items);
   closeModal('event-modal');
-  saveHistory();
   persist();
   showStatus('💾 נשמר');
   render();
@@ -1238,37 +1296,87 @@ function saveEvent() {
 // DRAG & DROP
 // ═══════════════════════════════════════════
 function dragStart(e,key) {
-  dragKey=key;
+  // Full cell drag
+  dragKey = {type:'cell', key};
   e.dataTransfer.effectAllowed='move';
-  // Don't trigger cell selection during drag
   e.stopPropagation();
   clearSelection();
+}
+
+function dragItemStart(e,key,itemIdx) {
+  // Single item drag
+  dragKey = {type:'item', key, itemIdx};
+  e.dataTransfer.effectAllowed='move';
+  e.stopPropagation();
+  clearSelection();
+}
+
+function dropOnItem(e,targetKey,targetItemIdx) {
+  e.preventDefault();
+  e.stopPropagation();
+  e.target.closest('[draggable]').style.outline='';
+  if(!dragKey) return;
+
+  if(dragKey.type==='item') {
+    const srcKey = dragKey.key;
+    const srcIdx = dragKey.itemIdx;
+    if(srcKey===targetKey && srcIdx===targetItemIdx) { dragKey=null; return; }
+
+    saveHistory();
+    const srcItems = getCellItems(srcKey, getOriginalVal(srcKey));
+    const [movedItem] = srcItems.splice(srcIdx, 1);
+
+    if(srcKey===targetKey) {
+      // Same cell — reorder
+      srcItems.splice(targetItemIdx, 0, movedItem);
+      setCellItems(srcKey, srcItems);
+    } else {
+      // Different cell — move item
+      setCellItems(srcKey, srcItems);
+      const tgtItems = getCellItems(targetKey, getOriginalVal(targetKey));
+      tgtItems.splice(targetItemIdx, 0, movedItem);
+      setCellItems(targetKey, tgtItems);
+    }
+    dragKey=null;
+    persist(); render();
+    showStatus('🔀 הועבר');
+  } else {
+    // Full cell drop on item → add to target
+    doDrop(e, targetKey);
+  }
 }
 function doDrop(e,targetKey) {
   e.preventDefault();
   e.target.closest('.ecell')?.classList.remove('drag-over');
-  if(!dragKey||dragKey===targetKey) return;
+  if(!dragKey) return;
 
-  // Get actual items from both cells (handles both old and new format)
-  function getKeyOrigVal(key) {
-    const m = key.match(/^s-(\d+)-(.+)-(\d+)$/);
-    if(!m) return '';
-    const wi=parseInt(m[1]), cat=m[2], di=parseInt(m[3]);
-    return (ALL_SCHED[wi]?.categories[cat]||[])[di]||'';
+  const dk = dragKey;
+  dragKey = null;
+
+  if(dk.type==='item') {
+    // Single item dropped on cell background
+    saveHistory();
+    const srcItems = getCellItems(dk.key, getOriginalVal(dk.key));
+    const [movedItem] = srcItems.splice(dk.itemIdx, 1);
+    setCellItems(dk.key, srcItems);
+    const tgtItems = getCellItems(targetKey, getOriginalVal(targetKey));
+    tgtItems.push(movedItem);
+    setCellItems(targetKey, tgtItems);
+    persist(); render();
+    showStatus('🔀 הועבר');
+    return;
   }
 
-  const srcItems = getCellItems(dragKey, getKeyOrigVal(dragKey));
-  const tgtItems = getCellItems(targetKey, getKeyOrigVal(targetKey));
-
-  // ADD src items to target, clear src
-  setCellItems(targetKey, [...tgtItems, ...srcItems]);
-  setCellItems(dragKey, []);
-
-  dragKey=null;
+  // Full cell drag
+  const srcKey = dk.key;
+  if(srcKey===targetKey) return;
   saveHistory();
-  persist();
+  const srcItems = getCellItems(srcKey, getOriginalVal(srcKey));
+  const tgtItems = getCellItems(targetKey, getOriginalVal(targetKey));
+  setCellItems(targetKey, [...tgtItems, ...srcItems]);
+  setCellItems(srcKey, []);
+  persist(); render();
   showStatus('🔀 הועבר');
-  render();
 }
 
 // ═══════════════════════════════════════════
@@ -1410,6 +1518,112 @@ function getGradeColor(g) {
   const map = {'שכבת ז':'#b55a00','שכבת ח':'#006080','שכבת ט':'#5a006b','שכבת י':'#006b3a','שכבת י"א':'#8b0000','שכבת י"ב':'#00468b'};
   return map[g]||'#555';
 }
+
+function selectItem(e, key, itemIdx) {
+  e.stopPropagation();
+  // Clear any existing selection
+  document.querySelectorAll('.ev-item-row.item-selected').forEach(el=>el.classList.remove('item-selected'));
+  document.querySelectorAll('.ecell.selected').forEach(el=>el.classList.remove('selected'));
+  
+  selectedCell = {key, itemIdx};
+  e.currentTarget.classList.add('item-selected');
+  
+  // Show toolbar
+  const tb = document.getElementById('edit-toolbar');
+  if(tb) tb.classList.add('show');
+}
+
+function openEditSelected() {
+  if(!selectedCell) return;
+  const key = selectedCell;
+  // Find cat from key
+  const m = key.match(/^s-\d+-(.+)-\d+$/);
+  const cat = m ? m[1] : '';
+  clearSelection();
+  openEdit(key, getOriginalVal(key), cat);
+}
+function cutSelected() {
+  if(!selectedCell) return;
+  clipboard = { items: JSON.parse(JSON.stringify(getCellItems(selectedCell, getOriginalVal(selectedCell)))) };
+  saveHistory();
+  setCellItems(selectedCell, []);
+  clearSelection(); persist(); render();
+  showStatus('✂️ גזור');
+}
+function copySelected() {
+  if(!selectedCell) return;
+  clipboard = { items: JSON.parse(JSON.stringify(getCellItems(selectedCell, getOriginalVal(selectedCell)))) };
+  showStatus('📋 הועתק');
+}
+function pasteSelected() {
+  if(!selectedCell) return;
+  if(!clipboard?.items?.length) { showStatus('אין תוכן בלוח'); return; }
+  saveHistory();
+  const existing = getCellItems(selectedCell, getOriginalVal(selectedCell));
+  setCellItems(selectedCell, [...existing, ...clipboard.items]);
+  persist(); render();
+  showStatus('📌 הודבק');
+}
+
+function buildWeekText() {
+  const SD = getActiveSchedule ? getActiveSchedule() : ALL_SCHED;
+  const ci = findCurrentWeek();
+  const heroWi = Math.max(0, Math.min(SD.length-1, ci + (heroWeekOffset||0)));
+  const cw = SD[heroWi];
+
+  const dateRange = (cw.dates[0]||'').split(' * ')[0] + ' – ' + (cw.dates[6]||'').split(' * ')[0];
+  const secRange = (cw.dates[0]||'').split(' * ')[1] + ' – ' + (cw.dates[6]||'').split(' * ')[1];
+  const parshaEv2 = (cw.categories['פדגוגי']||[]).find(v=>v&&v.includes('פרשת'))||
+                    (cw.categories['מעגל השנה']||[]).find(v=>v&&v.includes('פרשת'))||'';
+
+  let lines = [];
+  lines.push('📅 עדכון שבועי' + (parshaEv2 ? ' | ' + parshaEv2 : ''));
+  lines.push(dateRange + ' | ' + secRange);
+  lines.push('');
+
+  // Build per-day events
+  DAY_NAMES.forEach((dayName, i) => {
+    const d = cw.dates[i];
+    if(!d) return;
+    const p = d.split(' * ');
+    const dayEvtsList = [];
+    CAT_ORDER.forEach(cat => {
+      const key = 's-' + heroWi + '-' + cat + '-' + i;
+      const cellItems = getCellItems(key, getOriginalVal(key));
+      cellItems.forEach(item => {
+        if(!item.text||!item.text.trim()||item.text.includes('פרשת')) return;
+        if(item.text.includes('חופשת')) return;
+        let line = '• ' + item.text;
+        if(item.time) line += ' (' + item.time + ')';
+        if(item.loc) line += ' | ' + item.loc;
+        if(item.note) line += ' — ' + item.note;
+        dayEvtsList.push(line);
+      });
+    });
+    if(dayEvtsList.length) {
+      lines.push('🗓 ' + dayName + ' ' + p[0] + ' (' + (p[1]||'') + ')');
+      dayEvtsList.forEach(l => lines.push(l));
+      lines.push('');
+    }
+  });
+
+  lines.push('——');
+  lines.push('ישיבת בני עקיבא עלי');
+  return lines.join('\n');
+}
+
+function sendEmail() {
+  const text = buildWeekText();
+  const subject = encodeURIComponent(text.split('\n')[0]);
+  const body = encodeURIComponent(text);
+  window.open('mailto:?subject=' + subject + '&body=' + body);
+}
+
+function sendWhatsapp() {
+  const text = buildWeekText();
+  const encoded = encodeURIComponent(text);
+  window.open('https://wa.me/?text=' + encoded);
+}
 // ═══════════════════════════════════════════
 // STATUS
 // ═══════════════════════════════════════════
@@ -1424,10 +1638,42 @@ buildLayersBar();
 buildMonthSel();
 render();
 
-// Click outside deselects
-document.addEventListener('click', e => {
-  if(isEditor && selectedCell && !e.target.closest('.ecell')) {
+// Event delegation for edit cells
+let _lastClickKey = null;
+let _lastClickTime = 0;
+
+document.addEventListener('click', function(e) {
+  if(!isEditor) return;
+
+  // Ignore clicks on buttons inside cells
+  if(e.target.tagName === 'BUTTON') return;
+
+  const cell = e.target.closest('.ecell.editable');
+  if(!cell) {
     clearSelection();
+    return;
+  }
+  e.stopPropagation();
+  const key = cell.dataset.key;
+  const cat = cell.dataset.cat;
+  if(!key) return;
+
+  const now = Date.now();
+  const isDoubleClick = (key === _lastClickKey) && (now - _lastClickTime < 500);
+  _lastClickKey = key;
+  _lastClickTime = now;
+
+  if(isDoubleClick) {
+    // Double click → open edit
+    clearSelection();
+    openEdit(key, getOriginalVal(key), cat);
+  } else {
+    // Single click → select
+    clearSelection();
+    selectedCell = key;
+    cell.classList.add('selected');
+    const tb = document.getElementById('edit-toolbar');
+    if(tb) tb.classList.add('show');
   }
 });
 
