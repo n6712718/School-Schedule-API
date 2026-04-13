@@ -140,6 +140,7 @@ body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);direc
 .ecell.hol{background:#fff5f5;} .ecell.shab-c{background:#f2fbf3;}
 .ecell.editable{cursor:pointer;} .ecell.editable:hover{background:#fffbf0!important;outline:2px dashed var(--acc2);outline-offset:-2px;}
 .ecell.drag-over{background:#fffbf0!important;outline:2px dashed var(--acc2)!important;}
+.ecell.selected{outline:2.5px solid var(--acc2);background:#fffbf0!important;box-shadow:0 0 0 3px rgba(196,123,26,.15);}
 
 .etag{display:inline-block;border-radius:3px;padding:2px 5px;font-size:.67rem;font-weight:700;margin:1px;line-height:1.4;}
 .et-gen{background:#edf3ff;color:#1a3a6b;} .et-hol{background:#fdecea;color:#7a1a1a;}
@@ -315,6 +316,7 @@ let showSaturday = true;
 let heroWeekOffset = 0; // 0=current, +1=next week, -1=prev week
 let pendingEdit = null;
 let dragKey = null;
+let selectedCell = null; // key of selected cell
 let clipboard = null;
 let activeYearIdx = 0;
 // Undo/Redo history
@@ -341,12 +343,72 @@ function redo() {
   edits = JSON.parse(history[historyIdx]);
   persist(); render(); showStatus('↪️ הוחזר');
 }
-// Keyboard shortcut Ctrl+Z / Ctrl+Y
+// Keyboard shortcuts
 document.addEventListener('keydown', e => {
   if(!isEditor) return;
-  if((e.ctrlKey||e.metaKey) && e.key==='z' && !e.shiftKey) { e.preventDefault(); undo(); }
-  if((e.ctrlKey||e.metaKey) && (e.key==='y' || (e.key==='z'&&e.shiftKey))) { e.preventDefault(); redo(); }
+  if((e.ctrlKey||e.metaKey) && e.key==='z' && !e.shiftKey) { e.preventDefault(); undo(); return; }
+  if((e.ctrlKey||e.metaKey) && (e.key==='y' || (e.key==='z'&&e.shiftKey))) { e.preventDefault(); redo(); return; }
+  // Delete selected cell
+  if((e.key==='Delete'||e.key==='Backspace') && selectedCell) {
+    const active = document.activeElement;
+    // Don't delete if typing in an input
+    if(active && (active.tagName==='INPUT'||active.tagName==='TEXTAREA')) return;
+    e.preventDefault();
+    deleteSelectedCell();
+  }
+  // Escape = deselect
+  if(e.key==='Escape') { clearSelection(); }
 });
+
+let _clickTimer = null;
+let _clickTarget = null;
+
+function handleCellClick(e, key, origVal, cat) {
+  e.stopPropagation();
+  if(_clickTimer && _clickTarget === key) {
+    // Second click = double click → edit
+    clearTimeout(_clickTimer);
+    _clickTimer = null;
+    _clickTarget = null;
+    clearSelection();
+    openEdit(key, origVal, cat);
+    return;
+  }
+  // First click = select
+  clearSelection();
+  selectedCell = key;
+  e.currentTarget.classList.add('selected');
+  showStatus('לחץ שוב לעריכה · Delete למחיקה · Esc לביטול');
+  _clickTarget = key;
+  _clickTimer = setTimeout(() => {
+    _clickTimer = null;
+    _clickTarget = null;
+  }, 400);
+}
+
+function selectCell(e, key) {
+  // Legacy - redirect
+  handleCellClick(e, key, '', '');
+}
+
+function deleteSelectedCell() {
+  if(!selectedCell) return;
+  saveHistory();
+  setCellItems(selectedCell, []);
+  delete edits[selectedCell];
+  delete edits['items_'+selectedCell];
+  clearSelection();
+  persist();
+  showStatus('🗑️ נמחק');
+  render();
+}
+
+function clearSelection() {
+  if(selectedCell) {
+    document.querySelectorAll('.ecell.selected').forEach(el=>el.classList.remove('selected'));
+    selectedCell = null;
+  }
+}
 
 try { edits = JSON.parse(localStorage.getItem('sched_v4') || '{}'); } catch(e){}
 
@@ -827,7 +889,8 @@ function renderLoz() {
             ondragover="event.preventDefault();this.classList.add('drag-over')"
             ondragleave="this.classList.remove('drag-over')"
             ondrop="doDrop(event,'${key}')"
-            onclick="openEdit('${key}','','${cat}')">
+            onclick="selectCell('${key}',event)"
+            ondblclick="openEdit('${key}',getOriginalVal('${key}'),'${cat}',event)">
             ${itemsHTML}
             ${items.length?`<button class="copy-btn" onclick="event.stopPropagation();copyCell('${key}')" title="העתק">⧉</button>`:''}
             
@@ -1046,6 +1109,49 @@ function renderItemCard(item, idx) {
 }
 
 
+// ── SINGLE CLICK: select cell ──
+function selectCell(key, e) {
+  e.stopPropagation();
+  if(selectedCell === key) return; // already selected, ignore (dblclick handles it)
+  // Deselect previous
+  document.querySelectorAll('.ecell.selected').forEach(el=>el.classList.remove('selected'));
+  selectedCell = key;
+  // Highlight selected cell
+  const items = getCellItems(key, getV(key,''));
+  if(!items.length) {
+    // Empty cell — single click opens edit directly
+    openEdit(key,'','',e);
+    return;
+  }
+  // Find and highlight the cell
+  event.currentTarget?.classList.add('selected');
+}
+
+// Click outside → deselect
+document.addEventListener('click', function() {
+  document.querySelectorAll('.ecell.selected').forEach(el=>el.classList.remove('selected'));
+  selectedCell = null;
+});
+
+// Delete key → delete selected cell contents
+document.addEventListener('keydown', function(e) {
+  if(!isEditor || !selectedCell) return;
+  if(e.key === 'Delete' || e.key === 'Backspace') {
+    // Don't delete if typing in an input
+    if(['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) return;
+    e.preventDefault();
+    saveHistory();
+    setCellItems(selectedCell, []);
+    delete edits[selectedCell];
+    delete edits['layers_'+selectedCell];
+    delete edits['items_'+selectedCell];
+    persist();
+    selectedCell = null;
+    showStatus('🗑️ נמחק');
+    render();
+  }
+});
+
 function updateItemLayers(idx) {
   const card = document.getElementById('ev-card-'+idx);
   if(!card || !editingItems[idx]) return;
@@ -1079,7 +1185,16 @@ function deleteItem(idx) {
   refreshItemsList();
 }
 
-function openEdit(key, val, ctx) {
+function getOriginalVal(key) {
+  // key = s-{wi}-{cat}-{di}
+  const m = key.match(/^s-(\d+)-(.+)-(\d+)$/);
+  if(!m) return '';
+  const wi=parseInt(m[1]), cat=m[2], di=parseInt(m[3]);
+  return (ALL_SCHED[wi]?.categories?.[cat]||[])[di]||'';
+}
+
+function openEdit(key, val, ctx, e) {
+  if(e) e.stopPropagation();
   if(!isEditor) return;
   pendingEdit=key;
   document.getElementById('em-title').textContent=`✏️ ${ctx}`;
@@ -1125,29 +1240,29 @@ function saveEvent() {
 function dragStart(e,key) {
   dragKey=key;
   e.dataTransfer.effectAllowed='move';
+  // Don't trigger cell selection during drag
+  e.stopPropagation();
+  clearSelection();
 }
 function doDrop(e,targetKey) {
   e.preventDefault();
   e.target.closest('.ecell')?.classList.remove('drag-over');
   if(!dragKey||dragKey===targetKey) return;
 
-  // Use getV() to get actual displayed value (from edits OR original data)
-  // Parse key: s-{wi}-{cat}-{di}
-  function getOrigVal(key) {
-    // key: s-{wi}-{cat}-{di}
+  // Get actual items from both cells (handles both old and new format)
+  function getKeyOrigVal(key) {
     const m = key.match(/^s-(\d+)-(.+)-(\d+)$/);
     if(!m) return '';
     const wi=parseInt(m[1]), cat=m[2], di=parseInt(m[3]);
     return (ALL_SCHED[wi]?.categories[cat]||[])[di]||'';
   }
 
-  const sv = edits.hasOwnProperty(dragKey) ? edits[dragKey] : getOrigVal(dragKey);
-  const sl = edits['layers_'+dragKey]||'';
-  const tv = edits.hasOwnProperty(targetKey) ? edits[targetKey] : getOrigVal(targetKey);
-  const tl = edits['layers_'+targetKey]||'';
+  const srcItems = getCellItems(dragKey, getKeyOrigVal(dragKey));
+  const tgtItems = getCellItems(targetKey, getKeyOrigVal(targetKey));
 
-  edits[targetKey]=sv; edits['layers_'+targetKey]=sl;
-  edits[dragKey]=tv;   edits['layers_'+dragKey]=tl;
+  // ADD src items to target, clear src
+  setCellItems(targetKey, [...tgtItems, ...srcItems]);
+  setCellItems(dragKey, []);
 
   dragKey=null;
   saveHistory();
@@ -1308,6 +1423,13 @@ function hideStatus(){document.getElementById('status').classList.remove('show')
 buildLayersBar();
 buildMonthSel();
 render();
+
+// Click outside deselects
+document.addEventListener('click', e => {
+  if(isEditor && selectedCell && !e.target.closest('.ecell')) {
+    clearSelection();
+  }
+});
 
 // Global handler for inline note inputs — avoids re-render on each keystroke
 document.addEventListener('change', function(e) {
