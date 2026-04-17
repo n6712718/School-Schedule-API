@@ -1521,22 +1521,31 @@ function getGradeColor(g) {
 
 function selectItem(e, key, itemIdx) {
   e.stopPropagation();
-  // Clear any existing selection
   document.querySelectorAll('.ev-item-row.item-selected').forEach(el=>el.classList.remove('item-selected'));
   document.querySelectorAll('.ecell.selected').forEach(el=>el.classList.remove('selected'));
   
+  // Check double-click on item → open edit
+  const now = Date.now();
+  const isDouble = (key === _lastClickKey) && (now - _lastClickTime < 500);
+  _lastClickKey = key;
+  _lastClickTime = now;
+
+  if(isDouble) {
+    const m = key.match(/^s-\d+-(.+)-\d+$/);
+    const cat = m ? m[1] : '';
+    openEdit(key, getOriginalVal(key), cat);
+    return;
+  }
+
   selectedCell = {key, itemIdx};
   e.currentTarget.classList.add('item-selected');
-  
-  // Show toolbar
   const tb = document.getElementById('edit-toolbar');
   if(tb) tb.classList.add('show');
 }
 
 function openEditSelected() {
   if(!selectedCell) return;
-  const key = selectedCell;
-  // Find cat from key
+  const key = typeof selectedCell==='object' ? selectedCell.key : selectedCell;
   const m = key.match(/^s-\d+-(.+)-\d+$/);
   const cat = m ? m[1] : '';
   clearSelection();
@@ -1544,23 +1553,25 @@ function openEditSelected() {
 }
 function cutSelected() {
   if(!selectedCell) return;
-  clipboard = { items: JSON.parse(JSON.stringify(getCellItems(selectedCell, getOriginalVal(selectedCell)))) };
+  const _sk = typeof selectedCell==='object' ? selectedCell.key : selectedCell;
+  clipboard = { items: JSON.parse(JSON.stringify(getCellItems(_sk, getOriginalVal(_sk)))) };
   saveHistory();
-  setCellItems(selectedCell, []);
+  setCellItems(_sk, []);
   clearSelection(); persist(); render();
   showStatus('✂️ גזור');
 }
 function copySelected() {
   if(!selectedCell) return;
-  clipboard = { items: JSON.parse(JSON.stringify(getCellItems(selectedCell, getOriginalVal(selectedCell)))) };
+  const _sk = typeof selectedCell==='object' ? selectedCell.key : selectedCell;
+  clipboard = { items: JSON.parse(JSON.stringify(getCellItems(_sk, getOriginalVal(_sk)))) };
   showStatus('📋 הועתק');
 }
 function pasteSelected() {
   if(!selectedCell) return;
   if(!clipboard?.items?.length) { showStatus('אין תוכן בלוח'); return; }
   saveHistory();
-  const existing = getCellItems(selectedCell, getOriginalVal(selectedCell));
-  setCellItems(selectedCell, [...existing, ...clipboard.items]);
+  const existing = getCellItems(_sk, getOriginalVal(_sk));
+  setCellItems(_sk, [...existing, ...clipboard.items]);
   persist(); render();
   showStatus('📌 הודבק');
 }
